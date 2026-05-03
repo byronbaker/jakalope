@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Role-Based Agents — jakalope.ai</title>
+  <meta name="description" content="The simplest change you can make to get dramatically better work out of an AI agent." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0b0a; --fg: #ede8e1; --fg-dim: #9a9088;
+      --fg-faint: rgba(237,232,225,0.35); --accent: #D43301;
+      --rule: rgba(255,255,255,0.1); --code-bg: rgba(255,255,255,0.05);
+    }
+    html, body { background: var(--bg); color: var(--fg); font-family: 'Courier Prime', monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.7; }
+    body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.55; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E"); background-size: 200px 200px; mix-blend-mode: overlay; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%); }
+    .page { position: relative; z-index: 1; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); }
+    .nav-brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--fg); transition: opacity 0.2s; }
+    .nav-brand:hover { opacity: 0.75; }
+    .nav-brand svg { flex-shrink: 0; }
+    .nav-wordmark { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(0.75rem, 2.5vw, 0.95rem); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1; }
+    .nav-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+    .article-wrap { max-width: 680px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 2rem) clamp(5rem, 12vw, 9rem); }
+    .article-header { margin-bottom: 3rem; }
+    .article-kicker { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 1.2rem; }
+    .article-kicker::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--accent); }
+    .article-title { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(1.5rem, 5vw, 2.2rem); line-height: 1.2; letter-spacing: 0.01em; color: var(--fg); margin-bottom: 1rem; }
+    .article-meta { display: flex; align-items: center; gap: 1.2rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; color: var(--fg-dim); }
+    .article-header-rule { margin-top: 2rem; border: none; border-top: 1px solid var(--rule); }
+    .article-body { font-size: clamp(0.9rem, 2.2vw, 1rem); }
+    .article-body > p:first-child { font-size: clamp(0.95rem, 2.5vw, 1.06rem); color: var(--fg-dim); line-height: 1.75; }
+    .article-body > * + * { margin-top: 1.5em; }
+    .article-body h1, .article-body h2, .article-body h3, .article-body h4 { font-family: 'Space Mono', monospace; font-weight: 700; line-height: 1.25; color: var(--fg); margin-top: 2.5em; margin-bottom: 0.75em; }
+    .article-body h1 { font-size: clamp(1.3rem, 4vw, 1.7rem); }
+    .article-body h2 { font-size: clamp(1.05rem, 3vw, 1.3rem); padding-bottom: 0.4em; border-bottom: 1px solid var(--rule); }
+    .article-body h3 { font-size: clamp(0.95rem, 2.5vw, 1.1rem); color: var(--fg-dim); }
+    .article-body h4 { font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-dim); }
+    .article-body p { line-height: 1.8; }
+    .article-body a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(212,51,1,0.4); text-underline-offset: 3px; transition: text-decoration-color 0.2s; }
+    .article-body a:hover { text-decoration-color: var(--accent); }
+    .article-body strong { color: var(--fg); font-weight: 700; }
+    .article-body em { font-style: italic; color: var(--fg); }
+    .article-body ul, .article-body ol { padding-left: 1.5em; line-height: 1.8; }
+    .article-body ul { list-style: none; }
+    .article-body ul li::before { content: '—'; display: inline-block; margin-left: -1.5em; margin-right: 0.6em; color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.75em; }
+    .article-body ol { list-style: decimal; }
+    .article-body ol li::marker { color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.8em; }
+    .article-body li + li { margin-top: 0.4em; }
+    .article-body li > ul, .article-body li > ol { margin-top: 0.4em; }
+    .article-body blockquote { border-left: 2px solid var(--accent); margin-left: 0; padding: 0.5em 0 0.5em 1.4em; color: var(--fg-dim); font-style: italic; }
+    .article-body blockquote > * + * { margin-top: 0.75em; }
+    .article-body code { font-family: 'Space Mono', monospace; font-size: 0.82em; background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 0.1em 0.4em; color: var(--fg); }
+    .article-body pre { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.07); border-left: 2px solid rgba(212,51,1,0.4); border-radius: 3px; padding: 1.2em 1.4em; overflow-x: auto; line-height: 1.6; }
+    .article-body pre code { background: none; border: none; padding: 0; font-size: 0.82em; }
+    .article-body hr { border: none; border-top: 1px solid var(--rule); margin: 3em 0; }
+    .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+    .article-body th { font-family: 'Space Mono', monospace; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 0.5em 1em 0.5em 0; }
+    .article-body td { border-bottom: 1px solid var(--rule); padding: 0.6em 1em 0.6em 0; vertical-align: top; }
+    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); }
+    .article-footer { max-width: 680px; margin: 0 auto; padding: 2rem clamp(1rem, 5vw, 2rem) 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .footer-back:hover { color: var(--accent); }
+    .footer-site { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; color: var(--fg-faint); text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav" aria-label="Site navigation">
+      <a class="nav-brand" href="/">
+        <svg width="40" height="40" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#D43301" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path stroke-width="2.4" d="M104,86 C100,72 94,54 86,34 C80,18 76,8 80,4 C83,1 88,4 92,14 C96,24 100,42 106,62" />
+            <path stroke-width="2"   d="M88,38 C80,28 70,18 62,10 C59,7 59,3 63,2 C67,1 73,6 78,14" />
+            <path stroke-width="1.8" d="M84,22 C76,14 68,8 64,2" />
+            <path stroke-width="2"   d="M96,62 C86,54 74,46 66,38 C63,34 64,30 68,29 C73,28 80,34 88,42" />
+            <path stroke-width="2.4" d="M132,86 C136,72 142,54 150,34 C156,18 160,8 156,4 C153,1 148,4 144,14 C140,24 136,42 130,62" />
+            <path stroke-width="2"   d="M148,38 C156,28 166,18 174,10 C177,7 177,3 173,2 C169,1 163,6 158,14" />
+            <path stroke-width="1.8" d="M152,22 C160,14 168,8 172,2" />
+            <path stroke-width="2"   d="M140,62 C150,54 162,46 170,38 C173,34 172,30 168,29 C163,28 156,34 148,42" />
+            <path stroke-width="2.4" d="M106,90 C100,78 97,62 99,48 C101,36 107,30 113,32 C119,34 121,46 119,62 L116,88" />
+            <path stroke-width="2.4" d="M130,90 C136,78 139,62 137,48 C135,36 129,30 123,32 C117,34 115,46 117,62 L120,88" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M108,86 C104,76 103,62 105,50 C107,41 111,37 114,39" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M128,86 C132,76 133,62 131,50 C129,41 125,37 122,39" />
+            <path stroke-width="2.4" d="M107,92 C102,100 100,112 103,122 C106,130 112,136 120,138 C128,140 136,136 140,128 C144,120 143,108 138,98 C135,92 130,88 124,88" />
+            <path stroke-width="2"   d="M108,108 C110,104 115,103 119,105 C121,106 122,109 120,112 C118,115 113,115 110,113 C108,111 107,109 108,108Z" />
+            <path stroke-width="2"   d="M128,108 C130,104 135,103 139,105 C141,106 142,109 140,112 C138,115 133,115 130,113 C128,111 127,109 128,108Z" />
+            <path stroke-width="1.5" d="M113,107 L117,112" /><path stroke-width="1.5" d="M133,107 L137,112" />
+            <path stroke-width="1.4" d="M106,104 C109,101 114,100 118,102" /><path stroke-width="1.4" d="M130,102 C134,100 138,101 141,104" />
+            <path stroke-width="2"   d="M113,120 C115,124 118,126 121,124 C124,122 125,118 122,115" />
+            <path stroke-width="1.2" d="M113,120 C112,116 115,113 118,114" />
+            <path stroke-width="2.4" d="M110,138 C107,146 105,156 105,168" /><path stroke-width="2.4" d="M128,138 C132,146 134,156 134,168" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M111,140 C109,148 108,158 109,166" /><path stroke-width="1" stroke-opacity="0.5" d="M127,140 C130,148 131,158 130,166" />
+            <path stroke-width="2.4" d="M105,168 C100,178 97,192 98,208 C99,218 104,226 112,230 C116,232 118,232 120,232" />
+            <path stroke-width="2.4" d="M134,168 C139,178 142,192 141,208 C140,220 135,228 127,231 C124,232 122,232 120,232" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M103,182 C106,186 112,188 118,188 C124,188 130,186 132,182" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M100,198 C104,202 111,204 118,204 C125,204 132,202 136,198" />
+            <path stroke-width="2.2" d="M106,200 C102,210 100,220 100,228" /><path stroke-width="2.2" d="M113,202 C112,213 112,222 113,230" />
+            <path stroke-width="1.6" d="M99,228 C101,234 108,236 114,232" />
+            <path stroke-width="2.2" d="M132,200 C136,210 138,220 138,228" /><path stroke-width="2.2" d="M125,202 C126,213 126,222 125,230" />
+            <path stroke-width="1.6" d="M139,228 C137,234 130,236 124,232" />
+            <path stroke-width="2.2" d="M120,230 C118,236 117,242 118,246" /><path stroke-width="2.2" d="M120,230 C122,236 123,242 122,246" />
+            <path stroke-width="2"   d="M116,244 C108,246 98,248 90,248 C87,248 86,246 88,244" />
+            <path stroke-width="2"   d="M122,244 C130,246 140,248 148,248 C151,248 152,246 150,244" />
+            <path stroke-width="2.2" d="M134,188 C142,182 150,174 152,164 C154,156 150,150 144,152 C140,154 138,162 140,170" />
+            <path stroke-width="1.4" d="M136,186 C142,178 146,170 144,162" stroke-opacity="0.5" />
+            <path stroke-width="1.2" d="M148,170 C152,162 152,155 149,152" stroke-opacity="0.4" />
+          </g>
+        </svg>
+        <span class="nav-wordmark">jakalope.ai</span>
+      </a>
+      <a class="nav-back" href="/">
+        <svg width="12" height="9" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+          <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All posts
+      </a>
+    </nav>
+
+    <main class="article-wrap">
+      <header class="article-header">
+        <div class="article-kicker">AI Experiments &amp; Thinking</div>
+        <h1 class="article-title" id="article-title">Customer Role-Based Agents: Why "Be a Researcher" Beats "Be Helpful"</h1>
+        <div class="article-meta"><span id="article-date">Mar 2026</span></div>
+        <hr class="article-header-rule" />
+      </header>
+      <div class="article-body" id="article-body"></div>
+    </main>
+
+    <footer class="article-footer" aria-label="Article footer">
+      <a class="footer-back" href="/">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+          <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All posts
+      </a>
+      <span class="footer-site">jakalope.ai</span>
+    </footer>
+  </div>
+
+  <script src="marked.min.js"></script>
+  <script id="md-content" type="text/markdown">
+<!-- date: Mar 2026 -->
+# Customer Role-Based Agents: Why "Be a Researcher" Beats "Be Helpful"
+
+*The simplest change you can make to get dramatically better work out of an AI agent*
+
+---
+
+I want to share the single most useful thing I've learned about building AI agents this year. It's small. It's almost embarrassingly simple. And it will make your agents better than 90% of what's out there.
+
+Here it is: **stop building one agent that tries to do everything. Build several agents that each play one specific role.**
+
+That's it. That's the post.
+
+Okay, not really. Let's actually talk about *why* this works, because once you see it, you'll never go back.
+
+## Role isn't a costume. It's a mindset.
+
+Think about a great researcher you've worked with. Now think about a great strategist. Now think about a great designer. They're all smart, capable people. But ask them the same question and you'll get three completely different answers — not because they have different skills, but because they have different definitions of what a good answer *looks like.*
+
+A researcher's good answer leaves the contradictions visible. It says "here's what we know, here's what we kind of know, here's what we don't know" — and refuses to pretend otherwise.
+
+A strategist's good answer makes a call. It surfaces the trade-offs, names the second-order consequences, and gives you a recommendation you can actually act on.
+
+A designer's good answer makes a thing. It respects the constraints, compares the options, and ends with something you can hold up and look at.
+
+Same question. Three completely different shapes of answer. None of them wrong.
+
+Here's the thing: **that's exactly how it works for AI agents too.** "Role" doesn't change what the agent *can* do. It changes what the agent *thinks counts as done.* And that single thing — the definition of done — is the most powerful prompt you can give it.
+
+When you tell one agent to be a researcher, a strategist, *and* a designer all at once, what it actually optimizes for is plausible-sounding prose that gestures at all three. That's the mediocre middle the field has been complaining about. Give the same agent one role at a time and watch what happens. The work gets sharper. The opinions get clearer. The output becomes useful instead of "useful."
+
+Sagar Mandal puts it beautifully in [*Why Specialization Beats Generalization*](https://www.sagarmandal.com/2026/03/15/agentic-engineering-part-3-role-based-agent-personas-why-specialization-beats-generalization/): the same model produces dramatically different quality depending on the role it's asked to play. Tell it to be everything, you get mediocre at everything. Give it one frame at a time, you get genuinely good at that thing.
+
+## The next leap: building agents *as* the role, not *for* it
+
+Here's where things get really interesting.
+
+Almost every "AI assistant" you can buy today is built *for* a role. Assistants for analysts. Assistants for sales reps. Assistants for designers. The pattern is always the same: a human in the driver's seat, an agent in the passenger seat, suggesting things.
+
+Useful! But not where this is going.
+
+The shift I'm watching now — and I think you should be watching too — is agents built **as** customer-facing roles. Agents that *are* the analyst. Agents that *are* the tier-one support person. Agents that *are* the procurement reviewer. The human moves up to oversight, and the agent does the work.
+
+That's a different design challenge. Instead of asking "what would help an analyst?", you're asking "what does it actually mean to *be* an analyst — what do they decide, what do they refuse to decide, when do they ask for help, what do they not know?" Microsoft's [single-agent vs. multi-agent guide](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents) is a good practical starting point — even if you're not on Azure, the decision tree it walks through is the right first conversation.
+
+## Three things that separate great role-agents from costume-party ones
+
+If you're going to try this, here are the three habits that matter most.
+
+**Give it a real definition of done.** Not "be helpful." Something specific. *"A research synthesis is done when every claim is rated, contradictions are kept visible as findings, and gaps are named with the evidence that would close them."* If your agent can't tell when it's finished, it isn't really playing a role — it's just generating text.
+
+**Tell it when to stop and ask for help.** A great senior person, in any field, knows what they shouldn't decide alone. Your agent should too. Spell out the conditions where it pauses, names what it can't resolve, and hands the work to a human (or to another agent). Without this, "autonomous" just means "wrong, faster."
+
+**Be honest about what it doesn't know.** This one will save you so much pain. Give your agent three explicit lists: *what I know deeply, what I know a little, what I do not know.* For the third list, give it the redirect ready: "That's not my area — talk to so-and-so." This single change cuts hallucinated confidence by roughly an order of magnitude. It is the cheapest, highest-impact prompt change you can make.
+
+## A taste of what this looks like
+
+Here's a fragment from a recent role-agent definition. Generic enough to share:
+
+> **Role:** Senior research synthesizer.
+> **Definition of done:** Every claim carries a confidence rating (validated / probable / observed / gap). Contradictions between sources are kept visible as findings, not silently resolved. Gaps are stated with the specific evidence that would close them.
+> **When I escalate:** I stop and ask a human when (a) any claim that would change a downstream design decision is rated "observed" or below, (b) two sources disagree and neither is more trusted, or (c) the question I was given is outside the materials I was given.
+> **What I don't do:** Treat stakeholder framing as if it were behavioral evidence. Default to majority view when minority view has stronger grounding. Give a recommendation when I was asked for an analysis.
+
+Notice what's *not* in there: no friendly tone, no persona color, no "I'm Riley your helpful research buddy." Role-agent design isn't about voice. It's about the reasoning frame, the definition of done, and the conditions under which the agent stops and looks up.
+
+## You're not behind. You're early.
+
+If this is new to you, take a breath: the field is also new at this. The next wave of useful agent products won't be one-model assistants tuned with clever prompts. They'll be small teams of role-specialized agents, each with a sharp definition of done, honest knowledge boundaries, and clear escalation conditions. Generalist assistants will keep existing — they're great for low-stakes work — but the work that actually replaces a step in someone's job is going to come from agents that know what role they're playing and, just as importantly, what they're not.
+
+Pick one role. Define done. Name the escalation conditions. Be honest about what it doesn't know. Ship it. You're going to be amazed how much better it is than the everything-bagel version.
+
+---
+
+### Want to go deeper?
+
+- [*Why Specialization Beats Generalization*](https://www.sagarmandal.com/2026/03/15/agentic-engineering-part-3-role-based-agent-personas-why-specialization-beats-generalization/) — Sagar Mandal — the clearest writeup I've found
+- [*Choosing Between Single-Agent and Multi-Agent Systems*](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents) — Microsoft Cloud Adoption Framework
+- [*Multi-Agent Debate Frameworks for AI Reasoning*](https://sikkha.medium.com/exploring-multi-agent-debate-frameworks-for-ai-reasoning-and-persona-driven-architectures-0ffb5db05ee3) — Kan Yuenyong
+- [*Role-Playing Agents: Foundations & Applications*](https://www.emergentmind.com/topics/role-playing-agents-rpas) — a great academic survey if you want the deep cuts
+- [*Building AI Agents with Personas, Goals, and Dynamic Memory*](https://medium.com/@leviexraspk/building-ai-agents-with-personas-goals-and-dynamic-memory-6253acacdc0a) — Levi Ezra
+  </script>
+  <script>
+    (function () {
+      const mdEl = document.getElementById('md-content');
+      const bodyEl = document.getElementById('article-body');
+      if (!mdEl || !bodyEl || typeof marked === 'undefined') return;
+      const raw = mdEl.textContent;
+      const lines = raw.split('\n');
+      const nonEmpty = lines.filter(l => l.trim().length > 0);
+      const indent = nonEmpty.reduce((min, l) => { const m = l.match(/^(\s*)/); return Math.min(min, m ? m[1].length : 0); }, Infinity);
+      const dedented = lines.map(l => l.slice(indent === Infinity ? 0 : indent)).join('\n').trim();
+      const titleMatch = dedented.match(/^#\s+(.+)$/m);
+      const dateMatch  = dedented.match(/^<!--\s*date:\s*(.+?)\s*-->$/m);
+      if (titleMatch) { document.getElementById('article-title').textContent = titleMatch[1]; document.title = titleMatch[1] + ' — jakalope.ai'; }
+      if (dateMatch)  { document.getElementById('article-date').textContent = dateMatch[1]; }
+      let content = dedented;
+      if (titleMatch) content = content.replace(/^#[ \t]+.+\n?/m, '');
+      if (dateMatch)  content = content.replace(/^<!--\s*date:\s*.+?[ \t]*-->\n?/m, '');
+      bodyEl.innerHTML = marked.parse(content.trimStart(), { breaks: false, gfm: true });
+    })();
+  </script>
+</body>
+</html>

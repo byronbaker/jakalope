@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Nathan Hale Ultimate Frisbee</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── COURT (two halves side by side) ────────────── */
+    .court {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      min-height: 0;
+      gap: 10px;
+      padding: 10px 5px 0;
+    }
+
+    .team {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(10px, 2.5vh, 22px);
+      padding: clamp(12px, 2.5vw, 28px);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .team.blue {
+      background: linear-gradient(160deg, #0d47a1 0%, #1565c0 60%, #1e88e5 100%);
+    }
+
+    .team.red {
+      background: linear-gradient(160deg, #b71c1c 0%, #c62828 60%, #ef5350 100%);
+    }
+
+    /* ── TEAM NAME ──────────────────────────────────── */
+    .team-name {
+      font-size: clamp(14px, 4vw, 24px);
+      font-weight: 800;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .team-name-input {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.85);
+      font-size: clamp(14px, 4vw, 24px);
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-align: center;
+      width: 100%;
+      max-width: 170px;
+      outline: none;
+      padding: 2px 4px;
+      transition: border-bottom-color 0.15s;
+    }
+
+    .team-name-input::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .team-name-input:focus {
+      border-bottom-color: rgba(255,255,255,0.9);
+    }
+
+    /* ── SCORE ──────────────────────────────────────── */
+    .score {
+      font-size: clamp(56px, 14vw, 108px);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1;
+      min-width: 2ch;
+      text-align: center;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.45);
+    }
+
+    /* ── BUTTONS ────────────────────────────────────── */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.8vh, 14px);
+      width: 100%;
+      max-width: 160px;
+    }
+
+    button {
+      width: 100%;
+      padding: clamp(12px, 2.2vh, 20px) 0;
+      border: none;
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.1s ease, opacity 0.1s ease;
+      user-select: none;
+    }
+
+    button:active {
+      transform: scale(0.92);
+      opacity: 0.82;
+    }
+
+    .btn-up {
+      background: rgba(255,255,255,0.22);
+      color: #ffffff;
+      font-size: clamp(22px, 5vw, 34px);
+    }
+
+    .btn-down {
+      background: rgba(0,0,0,0.22);
+      color: rgba(255,255,255,0.7);
+      font-size: clamp(18px, 4vw, 26px);
+    }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 10px 16px;
+      flex-shrink: 0;
+      background: #ffffff;
+    }
+
+    .reset-btn {
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 50px;
+      color: #555;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 9px 28px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .reset-btn:active {
+      background: #e0e0e0;
+    }
+
+    /* ── SCORE POP ANIMATION ────────────────────────── */
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
+
+    .score.flash {
+      animation: pop 0.18s ease;
+    }
+
+    /* ── LANDSCAPE TWEAKS ───────────────────────────── */
+    @media (orientation: landscape) {
+      .court {
+        padding: 5px 5px 0;
+      }
+
+      .team {
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: clamp(8px, 2vw, 24px);
+        padding: 12px clamp(10px, 2vw, 24px);
+      }
+
+      .btn-group {
+        flex-direction: column;
+        max-width: 110px;
+      }
+
+      .score {
+        font-size: clamp(52px, 10vw, 90px);
+      }
+
+      .team-name,
+      .team-name-input {
+        font-size: clamp(13px, 2.4vw, 20px);
+      }
+
+      footer {
+        padding: 7px 16px;
+      }
+    }
+
+    /* ── SMALL PHONES (e.g. SE) ─────────────────────── */
+    @media (max-width: 375px) {
+      .score {
+        font-size: 64px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="court">
+
+    <!-- BLUE / NATHAN HALE -->
+    <div class="team blue">
+      <div class="team-name">Nathan Hale</div>
+      <div class="score" id="score-blue">0</div>
+      <div class="btn-group">
+        <button class="btn-up"   onclick="change('blue',  1)">+</button>
+        <button class="btn-down" onclick="change('blue', -1)">−</button>
+      </div>
+    </div>
+
+    <!-- RED / OPPONENT -->
+    <div class="team red">
+      <input
+        class="team-name-input"
+        id="red-team-name"
+        type="text"
+        placeholder="Opponent"
+        maxlength="20"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="characters"
+        spellcheck="false"
+      />
+      <div class="score" id="score-red">0</div>
+      <div class="btn-group">
+        <button class="btn-up"   onclick="change('red',  1)">+</button>
+        <button class="btn-down" onclick="change('red', -1)">−</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <button class="reset-btn" onclick="resetScores()">Reset</button>
+  </footer>
+
+  <script>
+    const scores = { blue: 0, red: 0 };
+
+    function change(team, delta) {
+      scores[team] = Math.max(0, scores[team] + delta);
+      const el = document.getElementById('score-' + team);
+      el.textContent = scores[team];
+      el.classList.remove('flash');
+      void el.offsetWidth; // force reflow to restart animation
+      el.classList.add('flash');
+    }
+
+    function resetScores() {
+      if (!confirm('Reset both scores to 0?')) return;
+      scores.blue = 0;
+      scores.red  = 0;
+      document.getElementById('score-blue').textContent = '0';
+      document.getElementById('score-red').textContent  = '0';
+    }
+  </script>
+
+</body>
+</html>
