@@ -112,7 +112,7 @@
             <path stroke-width="1.2" d="M148,170 C152,162 152,155 149,152" stroke-opacity="0.4" />
           </g>
         </svg>
-        <span class="nav-wordmark">jakalope.ai</span>
+        <span class="nav-wordmark">JAKALOPE AI</span>
       </a>
       <a class="nav-back" href="/">
         <svg width="12" height="9" viewBox="0 0 14 10" fill="none" aria-hidden="true">
@@ -154,33 +154,55 @@
 
 If you've been hearing about synthetic users and you're somewhere between "this sounds amazing" and "this sounds too good to be true" — you're in exactly the right spot. Both reactions are right, and that tension is where the good work is hiding.
 
-A synthetic user, the way I think about it, is a kind of digital stand-in. You give an AI model enough information about a real type of person — how they think, what they trust, what frustrates them — that the AI can act like that person when you put a prototype in front of it. Done well, you get something close to a real reaction in a fraction of the time. Done poorly, you get a charming mirror that tells you whatever you wanted to hear.
+A synthetic user, the way I think about it, is a kind of digital stand-in. You give an AI model enough information about a real type of person — how they think, what they trust, what frustrates them, what they refuse to do — that the AI can act like that person when you put a prototype in front of it, ask them to review your workflow, or talk to them about their job. Done well, you get something close to a real reaction in a fraction of the time. Done poorly, you get a flattering mirror that confirms whatever you already believed.
 
-The good news? The line between those two outcomes is actually pretty clear once you know where to look. So let's look.
+The good news? The line between those two outcomes is sharper than the field's reputation suggests. So let's walk through it.
 
-## Start with what's true
+## First, let's draw a clean line between three things people lump together
 
-Let's get the hard part out of the way. Most synthetic users on the market right now don't work very well. That's not me being a downer — that's what [the largest review of synthetic participants ever conducted](https://www.thevoiceofuser.com/the-largest-review-of-synthetic-participants-ever-conducted-found-exactly-what-youd-expect-synthetic-users-dont-work/) found, and it's what [MeasuringU's review of the experimental literature](https://measuringu.com/review-of-experiments-with-synthetic-users/) found, and it's what [a brand-new arXiv survey](https://arxiv.org/html/2512.00461v1) found when it discovered that 65% of academic papers using synthetic personas don't even discuss whether the personas are representative of real people.
+This is the single clearest reframe I can offer. Three different artifacts share the word "persona," and they do completely different jobs.
 
-That sounds bad. But here's the part I want you to hear: *the field is still figuring this out.* The people doing it well are doing it really well. Which means there's room for you to do it well too — if you understand what makes the difference.
+| Artifact | Built from | Optimized for |
+|---|---|---|
+| **Marketing persona** | Demographic and segmentation data | Targeting and messaging |
+| **Research persona** | Interview themes, attitudinal data | Empathy and team alignment |
+| **Synthetic user** | **Behavioral evidence — what people are observed doing** | Usability testing, concept reaction, prototype validation |
 
-The difference, every time, comes down to the evidence underneath.
+A marketing persona is a portrait. A research persona is a sketch. **A synthetic user is a script that can be performed.** The standard for performance is that the AI playing the role behaves the way a real person in that role would behave — including the parts that are inconvenient, contradictory, or unflattering.
 
-## Five things that change everything
+If you find yourself adding fields like "favorite coffee" or "weekend hobbies," you've drifted into portrait-making. Lovely. Wrong tool for this job.
 
-You don't need a PhD to build a synthetic user that works. You need five habits.
+## Why most of what's shipping doesn't work (and why yours can)
 
-**1. Trust what people *do* over what people *say.*** This one is huge. Most personas are built from interviews and surveys — what people *told* a researcher. A good synthetic user is built from what people were *observed doing*: session recordings, support tickets, watching them work. The gap between what people say and what people do is enormous. Behavior wins.
+Let's get the hard part out of the way. Most synthetic users on the market right now are mediocre. [The largest review of synthetic participants ever conducted](https://www.thevoiceofuser.com/the-largest-review-of-synthetic-participants-ever-conducted-found-exactly-what-youd-expect-synthetic-users-dont-work/) reached that conclusion bluntly. [MeasuringU's review of the experimental literature](https://measuringu.com/review-of-experiments-with-synthetic-users/) reached the same one. A 2025 academic survey found that [65% of papers using synthetic personas don't even discuss whether their personas are representative of real people](https://arxiv.org/html/2512.00461v1).
 
-**2. Three is a pattern. One is a story.** If you saw something happen once, that's interesting. If you saw it happen three times across three different people, now you've got something you can build on. I rate every claim in my synthetic users on a simple scale — *validated, probable, observed, gap* — and I won't lean on any claim that lives at the bottom of that scale for an important decision. Try this. It's the single biggest quality jump you can make.
+Here's a quick test you can run before you build or buy: ask the synthetic user to try a prototype that is genuinely bad. If it tells you the prototype is "interesting" and "has potential," it's not modeling a person. It's modeling the median LLM response to anything, with a costume on.
 
-**3. Wrong beliefs are gold.** This one surprises people. If a real user thinks your system "remembers" their preferences when it actually doesn't — write that wrong belief into your synthetic user *and don't fix it.* Wrong beliefs are what drive real clicks. A synthetic user that quietly knows how the system "really works" is a designer in disguise, not a user. (See also: [this paper on persona-conditioned LLMs as survey respondents](https://arxiv.org/html/2602.18462), which makes this point quantitatively.)
+So the field is struggling. Don't let that scare you off. *That means the people doing this well are doing something specific and learnable.* Let's get into what that is.
 
-**4. Build at least three moods.** Real people don't behave the same way at 9am that they do mid-crisis. I build every synthetic user with three states: *baseline* (calm), *elevated* (something's going wrong), and *peak stress* (everything's going wrong). Each state has its own rules — how long the person's responses get, what they'll skip, what they'll snap at. If your synthetic user is always cheerful and patient, you're testing the wrong moments.
+## Five disciplines that change everything
 
-**5. Name what your user *will not* let AI do.** "The user doesn't trust AI" isn't useful. "The user will accept AI suggestions for routine sequencing but will read every digit of any number that could appear in an audit" — that's a test scenario. Be specific. The specificity is the gift.
+These are the five habits that separate a synthetic user that earns trust from one that flatters you. None of them require a PhD. All of them require some stubbornness.
 
-## A taste of what this looks like
+**1. Behavioral evidence beats attitudinal evidence — every time.** What people *say* they do and what they *actually* do diverge in well-documented ways. Build from session recordings, support tickets, observation, shadowing — the residue of behavior, not the testimony about it.
+
+**2. Three is a pattern. One is a story.** One observation is interesting. Two is a coincidence with potential. Three across distinct sources is the floor of a real behavioral claim. The single biggest quality jump you can make is to refuse to lean on any claim that's been observed only once.
+
+**3. Wrong beliefs are gold.** This one surprises people. If a real user thinks the system "remembers" their preferences when it doesn't — write that wrong belief in *and don't fix it.* Wrong beliefs drive real clicks. There's something almost philosophical here: a real person's mental model is a kind of phenomenology, the world as they experience it, regardless of whether the experience matches the engineering. Flatten that into "what the system actually does" and you've replaced the user with the spec. That's the swap that makes most research feel useful in the room and useless on the floor.
+
+**4. Build at least three emotional states.** Real people aren't the same at 9 a.m. and at 3 p.m. when everything is on fire. *Baseline*, *elevated*, *peak stress* — each with its own response length, friction tolerance, and willingness to explain. If your synthetic user is always cheerful and patient, you're testing the wrong moments.
+
+**5. Name what your user *will not* let AI do.** "The user is skeptical of AI" is not useful. "The user will accept AI suggestions for routine sequencing but will read every digit of any number that could appear in an audit, and will not accept an AI decision on crew legality without seeing the underlying calculation" — *that* is a test scenario. Specificity is the whole game.
+
+## The small habit that does most of the work
+
+Rate every line. Every claim in your synthetic user gets one of four ratings: `[VALIDATED]` (three or more behavioral observations), `[PROBABLE]` (majority pattern), `[OBSERVED]` (single instance, treat as hypothesis), or `[DATA GAP]` (insufficient evidence — name what would close it).
+
+When you read the synthetic user back, the rating tells you exactly how much weight to put on the next decision the line will inform. It removes the option of confident-sounding fiction. It makes the document boring in a way that ends up being useful.
+
+This habit also lets you assign your synthetic user an "approved-for" tier. A persona with a `[DATA GAP]` on Workflow Resistance isn't High confidence — it's whatever the weakest critical field is. Be honest about which fields are critical for your use, and don't promote a persona above the tier its evidence supports.
+
+## A taste
 
 Here's a tiny snippet from a recent synthetic user — just enough to show the shape:
 
@@ -188,15 +210,17 @@ Here's a tiny snippet from a recent synthetic user — just enough to show the s
 >
 > **A wrong belief I hold (don't correct it):** I think the system remembers my preferences from yesterday's shift. It doesn't — there's no per-user memory — but I behave like it does. Expect me to be confused when a setting I "set" comes back at default. *(Confidence: probable — observed in 3 sessions, never corrected.)*
 
-See what's doing the work? The confidence rating. The named gap. The wrong belief, preserved on purpose. It's small. It's unflashy. And it's the part most synthetic-user products skip — which is exactly why yours can be better.
+See what's doing the work? The confidence rating. The named gap. The wrong belief, preserved on purpose. None of it is flashy. All of it is the shape of a real person under pressure.
 
 ## You can do this
 
-Synthetic users aren't a magic replacement for real users. Nothing replaces watching a real human use the thing you made. What synthetic users *do* is shrink the loop between research and design — so you can get a directionally honest reaction in hours instead of weeks, and save the precious time of real people for the questions that need them.
+Synthetic users aren't a magic replacement for real users. Nothing replaces watching a real human use the thing you made. What synthetic users *do* is shrink the loop between research and design — so you can sharpen the prototype before a real participant ever sees it, and save the precious time of real people for the questions that need them.
 
-The discipline that makes them work is honestly less about technology and more about humility. Mark your gaps as gaps. Don't fill them with confident-sounding fiction. A synthetic user with honest holes will teach you more than one with fabricated certainty.
+The discipline that makes them work is honestly less about technology and more about humility. **A synthetic user with honest gaps will teach you more than one with fabricated certainty.** That sentence is the whole craft.
 
-If you're new to this, that's actually an advantage. You don't have habits to unlearn. Start with the five things above, build one persona from real behavioral evidence you've already collected, and put a small prototype in front of it. You'll learn more from one well-built synthetic user than from ten flashy ones. I promise.
+If you're new to this, that's actually an advantage. You don't have habits to unlearn. Pick a role you have research on. Run a small discovery pass — three to five interviews and at least one observation session. Synthesize the evidence with confidence ratings on every claim. Build the three emotional states. Name the resistance points specifically. Put a small prototype in front of it.
+
+You'll learn more from one carefully built synthetic user than from ten flashy ones. The difference is in the structure. Build the boring version well. Then run.
 
 ---
 
@@ -205,7 +229,7 @@ If you're new to this, that's actually an advantage. You don't have habits to un
 - [*Whose Personae? Synthetic Persona Experiments in LLM Research and Pathways to Transparency*](https://arxiv.org/html/2512.00461v1) — the most useful academic paper on what's actually working
 - [*A Review of Experiments with Synthetic Users*](https://measuringu.com/review-of-experiments-with-synthetic-users/) — MeasuringU
 - [*The Largest Review of Synthetic Participants Ever Conducted*](https://www.thevoiceofuser.com/the-largest-review-of-synthetic-participants-ever-conducted-found-exactly-what-youd-expect-synthetic-users-dont-work/) — The Voice of User
-- [*UXAgent: An LLM-Agent-Based Usability Testing Framework*](https://arxiv.org/html/2504.09407v2) — a great look at what synthetic user testing at scale could become
+- [*UXAgent: An LLM-Agent-Based Usability Testing Framework*](https://arxiv.org/html/2504.09407v2) — a great look at what synthetic-user testing at scale could become
 - [*Assessing the Reliability of Persona-Conditioned LLMs as Synthetic Survey Respondents*](https://arxiv.org/html/2602.18462) — for the quantitatively curious
   </script>
   <script>

@@ -112,7 +112,7 @@
             <path stroke-width="1.2" d="M148,170 C152,162 152,155 149,152" stroke-opacity="0.4" />
           </g>
         </svg>
-        <span class="nav-wordmark">jakalope.ai</span>
+        <span class="nav-wordmark">JAKALOPE AI</span>
       </a>
       <a class="nav-back" href="/">
         <svg width="12" height="9" viewBox="0 0 14 10" fill="none" aria-hidden="true">
@@ -148,7 +148,7 @@
 <!-- date: Mar 2026 -->
 # Customer Role-Based Agents: Why "Be a Researcher" Beats "Be Helpful"
 
-*The simplest change you can make to get dramatically better work out of an AI agent*
+*The simplest change you can make to get dramatically better work out of an AI agent — and how those agents start to compose into real teams*
 
 ---
 
@@ -158,7 +158,19 @@ Here it is: **stop building one agent that tries to do everything. Build several
 
 That's it. That's the post.
 
-Okay, not really. Let's actually talk about *why* this works, because once you see it, you'll never go back.
+Okay, not really. Let's actually talk about *why* this works, because once you see it, you'll never go back. And then let's talk about what happens when you start composing those role-specific agents into something even more powerful — a *team*.
+
+## First, a clarifying frame: agent vs. skill vs. persona
+
+This trips up almost every team I've worked with. Hold these three things distinct in your head and you're already ahead of most of the field.
+
+| Concept | What it is | Decides? |
+|---|---|---|
+| **Agent** | A goal-directed actor that decides *what to do and in what order* to accomplish a defined intent. | Yes — about sequence, escalation, and when it's done. |
+| **Skill** | A discrete capability with a fixed input and a fixed output. Independently testable. | No — never decides when to run. The agent decides. |
+| **Persona policy** | A behavioral lens (e.g., Strategist, Researcher, Designer) applied to an agent's reasoning. Adjusts what's prioritized, challenged, and how outputs are framed. | No — operates inside the reasoning policy; cannot override it. |
+
+If you remember nothing else from this post: **agents decide, skills do, persona policies shape.** Most teams I see lump all three into one "AI assistant" prompt and then wonder why the output feels generic. It's because three different jobs are wrestling for the steering wheel.
 
 ## Role isn't a costume. It's a mindset.
 
@@ -174,33 +186,29 @@ Same question. Three completely different shapes of answer. None of them wrong.
 
 Here's the thing: **that's exactly how it works for AI agents too.** "Role" doesn't change what the agent *can* do. It changes what the agent *thinks counts as done.* And that single thing — the definition of done — is the most powerful prompt you can give it.
 
-When you tell one agent to be a researcher, a strategist, *and* a designer all at once, what it actually optimizes for is plausible-sounding prose that gestures at all three. That's the mediocre middle the field has been complaining about. Give the same agent one role at a time and watch what happens. The work gets sharper. The opinions get clearer. The output becomes useful instead of "useful."
+When you tell one agent to be a researcher, a strategist, *and* a designer all at once, what it actually optimizes for is plausible-sounding prose that gestures at all three. That's the mediocre middle the field has been complaining about for two years. Give the same agent one role at a time and watch what happens. The work gets sharper. The opinions get clearer. The output becomes useful instead of "useful."
 
 Sagar Mandal puts it beautifully in [*Why Specialization Beats Generalization*](https://www.sagarmandal.com/2026/03/15/agentic-engineering-part-3-role-based-agent-personas-why-specialization-beats-generalization/): the same model produces dramatically different quality depending on the role it's asked to play. Tell it to be everything, you get mediocre at everything. Give it one frame at a time, you get genuinely good at that thing.
 
-## The next leap: building agents *as* the role, not *for* it
-
-Here's where things get really interesting.
-
-Almost every "AI assistant" you can buy today is built *for* a role. Assistants for analysts. Assistants for sales reps. Assistants for designers. The pattern is always the same: a human in the driver's seat, an agent in the passenger seat, suggesting things.
-
-Useful! But not where this is going.
-
-The shift I'm watching now — and I think you should be watching too — is agents built **as** customer-facing roles. Agents that *are* the analyst. Agents that *are* the tier-one support person. Agents that *are* the procurement reviewer. The human moves up to oversight, and the agent does the work.
-
-That's a different design challenge. Instead of asking "what would help an analyst?", you're asking "what does it actually mean to *be* an analyst — what do they decide, what do they refuse to decide, when do they ask for help, what do they not know?" Microsoft's [single-agent vs. multi-agent guide](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents) is a good practical starting point — even if you're not on Azure, the decision tree it walks through is the right first conversation.
-
-## Three things that separate great role-agents from costume-party ones
-
-If you're going to try this, here are the three habits that matter most.
+## Three habits that separate great role-agents from costume-party ones
 
 **Give it a real definition of done.** Not "be helpful." Something specific. *"A research synthesis is done when every claim is rated, contradictions are kept visible as findings, and gaps are named with the evidence that would close them."* If your agent can't tell when it's finished, it isn't really playing a role — it's just generating text.
 
-**Tell it when to stop and ask for help.** A great senior person, in any field, knows what they shouldn't decide alone. Your agent should too. Spell out the conditions where it pauses, names what it can't resolve, and hands the work to a human (or to another agent). Without this, "autonomous" just means "wrong, faster."
+**Tell it when to stop and ask for help.** A great senior person, in any field, knows what they shouldn't decide alone. Your agent should too. Spell out the conditions where it pauses, names what it can't resolve, and hands the work to a human (or to another agent). This is what people mean when they say *bounded autonomy* — the agent does the work, the human keeps the right decisions. Without explicit escalation conditions, "autonomous" just means "wrong, faster."
 
-**Be honest about what it doesn't know.** This one will save you so much pain. Give your agent three explicit lists: *what I know deeply, what I know a little, what I do not know.* For the third list, give it the redirect ready: "That's not my area — talk to so-and-so." This single change cuts hallucinated confidence by roughly an order of magnitude. It is the cheapest, highest-impact prompt change you can make.
+**Be honest about what it doesn't know.** Give your agent three explicit lists: *what I know deeply, what I know a little, what I do not know.* For the third list, give it the redirect ready: "That's not my area — talk to so-and-so." This single change cuts hallucinated confidence by roughly an order of magnitude. It's the cheapest, highest-impact prompt change you can make.
 
-## A taste of what this looks like
+## The next leap: agents that work as a team
+
+Once you have a few sharp role-agents, something cool happens. They start to compose. The Strategist hands a direction to the Designer. The Designer hands a concept to the Researcher to validate. The Researcher hands a friction report back. The work moves around a *team* of specialized agents the same way it would move around a team of specialized humans.
+
+The trick is the same one that makes a good human team work: **the disagreement is the value.**
+
+If your agents always agree with each other, you've built them wrong. That sentence is worth stopping at. Most teams new to multi-agent design assume convergence is the goal — three agents that produce the same answer must mean the system is working. The opposite is true. A Strategist that reads evidence the same way a Researcher does has lost its lens. A Designer that's calling trade-offs instead of generating possibility has stopped being a Designer.
+
+There's something ancient about this principle. Three lenses on the same evidence is the structure of dialectic — thesis/antithesis/synthesis is the most familiar version, but the older traditions (the rabbinic argument-as-method, the Socratic method, the Madhyamaka tetralemma) all run on the same idea: **useful disagreement is generative.** A team of role-specialized agents is just a way to scale that ancient practice without burning out a real human team.
+
+## A taste
 
 Here's a fragment from a recent role-agent definition. Generic enough to share:
 
@@ -211,11 +219,19 @@ Here's a fragment from a recent role-agent definition. Generic enough to share:
 
 Notice what's *not* in there: no friendly tone, no persona color, no "I'm Riley your helpful research buddy." Role-agent design isn't about voice. It's about the reasoning frame, the definition of done, and the conditions under which the agent stops and looks up.
 
+## One last thing: build in the right order
+
+If you're going to start, here's the order that saves the most pain. **Knowledge first. Skills second. Reasoning policies third. Agents last.**
+
+Most teams do this in reverse. They start with a flashy agent demo, then realize the agent has no memory, then bolt on a knowledge base, then realize the reasoning is generic, then try to add discipline as an afterthought. The result is a system that produces plausible outputs and can't defend any of them.
+
+Build the boring layers first. By the time you need agents, you'll know exactly what you want them to do.
+
 ## You're not behind. You're early.
 
-If this is new to you, take a breath: the field is also new at this. The next wave of useful agent products won't be one-model assistants tuned with clever prompts. They'll be small teams of role-specialized agents, each with a sharp definition of done, honest knowledge boundaries, and clear escalation conditions. Generalist assistants will keep existing — they're great for low-stakes work — but the work that actually replaces a step in someone's job is going to come from agents that know what role they're playing and, just as importantly, what they're not.
+If this is new to you, take a breath: the field is also new at this. The next wave of useful agent products won't be one-model assistants tuned with clever prompts. They'll be small teams of role-specialized agents — each with a sharp definition of done, honest knowledge boundaries, and clear escalation conditions — composed into workflows that deliver real work end-to-end. Generalist assistants will keep existing for low-stakes work. But the work that actually replaces a step in someone's job is going to come from agents that know what role they're playing and, just as importantly, what they're not.
 
-Pick one role. Define done. Name the escalation conditions. Be honest about what it doesn't know. Ship it. You're going to be amazed how much better it is than the everything-bagel version.
+Pick one role. Define done. Name the escalation conditions. Be honest about what it doesn't know. Ship it. You're going to be amazed how much better it is than the everything-bagel version. And once you have one, you'll be ready to build the team.
 
 ---
 
@@ -223,7 +239,7 @@ Pick one role. Define done. Name the escalation conditions. Be honest about what
 
 - [*Why Specialization Beats Generalization*](https://www.sagarmandal.com/2026/03/15/agentic-engineering-part-3-role-based-agent-personas-why-specialization-beats-generalization/) — Sagar Mandal — the clearest writeup I've found
 - [*Choosing Between Single-Agent and Multi-Agent Systems*](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents) — Microsoft Cloud Adoption Framework
-- [*Multi-Agent Debate Frameworks for AI Reasoning*](https://sikkha.medium.com/exploring-multi-agent-debate-frameworks-for-ai-reasoning-and-persona-driven-architectures-0ffb5db05ee3) — Kan Yuenyong
+- [*Multi-Agent Debate Frameworks for AI Reasoning*](https://sikkha.medium.com/exploring-multi-agent-debate-frameworks-for-ai-reasoning-and-persona-driven-architectures-0ffb5db05ee3) — Kan Yuenyong — on the disagreement-is-the-insight principle
 - [*Role-Playing Agents: Foundations & Applications*](https://www.emergentmind.com/topics/role-playing-agents-rpas) — a great academic survey if you want the deep cuts
 - [*Building AI Agents with Personas, Goals, and Dynamic Memory*](https://medium.com/@leviexraspk/building-ai-agents-with-personas-goals-and-dynamic-memory-6253acacdc0a) — Levi Ezra
   </script>
