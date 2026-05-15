@@ -1,10 +1,27 @@
 <!DOCTYPE html>
+<!--
+  Case Study template — jakalope.ai
+  ─────────────────────────────────────────────────────────
+  To publish a new case study:
+    1. Copy this file and rename it (e.g. acme-checkout.html)
+    2. Update the <title> and <meta name="description"> below
+    3. Add the page to: index.html (Case Studies section), case-studies.html
+    4. Replace the markdown inside <script id="md-content">
+       — Update the four comment fields: client, project, completed, role
+       — Update the h1 title line
+       — Write the body below the h1
+  ─────────────────────────────────────────────────────────
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Building Robust Synthetic Users — jakalope.ai</title>
-  <meta name="description" content="A friendly guide to making AI-powered test users you can actually trust." />
+
+  <!-- ① Update these for each case study ──────────────── -->
+  <title>Case Study Title — jakalope.ai</title>
+  <meta name="description" content="A short description of this case study." />
+  <!-- ─────────────────────────────────────────────────── -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
@@ -19,6 +36,8 @@
     body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.55; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E"); background-size: 200px 200px; mix-blend-mode: overlay; }
     body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%); }
     .page { position: relative; z-index: 1; }
+
+    /* ── Nav ── */
     .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); }
     .nav-brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--fg); transition: opacity 0.2s; }
     .nav-brand:hover { opacity: 0.75; }
@@ -28,13 +47,23 @@
     .nav-link { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
     .nav-link:hover { color: var(--accent); }
     .nav-link.active { color: var(--fg); }
+
+    /* ── Article shell ── */
     .article-wrap { max-width: 680px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 2rem) clamp(5rem, 12vw, 9rem); }
     .article-header { margin-bottom: 3rem; }
     .article-kicker { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 1.2rem; }
     .article-kicker::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--accent); }
     .article-title { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(1.5rem, 5vw, 2.2rem); line-height: 1.2; letter-spacing: 0.01em; color: var(--fg); margin-bottom: 1rem; }
-    .article-meta { display: flex; align-items: center; gap: 1.2rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; color: var(--fg-dim); }
     .article-header-rule { margin-top: 2rem; border: none; border-top: 1px solid var(--rule); }
+
+    /* ── Case study metadata grid ── */
+    .cs-meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem 2rem; margin-top: 1.5rem; }
+    .cs-meta-item { display: flex; flex-direction: column; gap: 0.25rem; }
+    .cs-meta-label { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); }
+    .cs-meta-value { font-family: 'Courier Prime', monospace; font-size: 0.88rem; color: var(--fg); }
+    @media (max-width: 479px) { .cs-meta-grid { grid-template-columns: 1fr; } }
+
+    /* ── Rendered markdown body ── */
     .article-body { font-size: clamp(0.9rem, 2.2vw, 1rem); }
     .article-body > p:first-child { font-size: clamp(0.95rem, 2.5vw, 1.06rem); color: var(--fg-dim); line-height: 1.75; }
     .article-body > * + * { margin-top: 1.5em; }
@@ -64,7 +93,9 @@
     .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
     .article-body th { font-family: 'Space Mono', monospace; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 0.5em 1em 0.5em 0; }
     .article-body td { border-bottom: 1px solid var(--rule); padding: 0.6em 1em 0.6em 0; vertical-align: top; }
-    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); }
+    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); margin-top: 2em; margin-bottom: 2em; }
+
+    /* ── Footer ── */
     .article-footer { max-width: 680px; margin: 0 auto; padding: 2rem clamp(1rem, 5vw, 2rem) 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
     .footer-back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
     .footer-back:hover { color: var(--accent); }
@@ -73,6 +104,8 @@
 </head>
 <body>
   <div class="page">
+
+    <!-- Nav -->
     <nav class="nav" aria-label="Site navigation">
       <a class="nav-brand" href="/">
         <svg width="40" height="40" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -92,21 +125,28 @@
             <path stroke-width="2.4" d="M107,92 C102,100 100,112 103,122 C106,130 112,136 120,138 C128,140 136,136 140,128 C144,120 143,108 138,98 C135,92 130,88 124,88" />
             <path stroke-width="2"   d="M108,108 C110,104 115,103 119,105 C121,106 122,109 120,112 C118,115 113,115 110,113 C108,111 107,109 108,108Z" />
             <path stroke-width="2"   d="M128,108 C130,104 135,103 139,105 C141,106 142,109 140,112 C138,115 133,115 130,113 C128,111 127,109 128,108Z" />
-            <path stroke-width="1.5" d="M113,107 L117,112" /><path stroke-width="1.5" d="M133,107 L137,112" />
-            <path stroke-width="1.4" d="M106,104 C109,101 114,100 118,102" /><path stroke-width="1.4" d="M130,102 C134,100 138,101 141,104" />
+            <path stroke-width="1.5" d="M113,107 L117,112" />
+            <path stroke-width="1.5" d="M133,107 L137,112" />
+            <path stroke-width="1.4" d="M106,104 C109,101 114,100 118,102" />
+            <path stroke-width="1.4" d="M130,102 C134,100 138,101 141,104" />
             <path stroke-width="2"   d="M113,120 C115,124 118,126 121,124 C124,122 125,118 122,115" />
             <path stroke-width="1.2" d="M113,120 C112,116 115,113 118,114" />
-            <path stroke-width="2.4" d="M110,138 C107,146 105,156 105,168" /><path stroke-width="2.4" d="M128,138 C132,146 134,156 134,168" />
-            <path stroke-width="1"   stroke-opacity="0.5" d="M111,140 C109,148 108,158 109,166" /><path stroke-width="1" stroke-opacity="0.5" d="M127,140 C130,148 131,158 130,166" />
+            <path stroke-width="2.4" d="M110,138 C107,146 105,156 105,168" />
+            <path stroke-width="2.4" d="M128,138 C132,146 134,156 134,168" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M111,140 C109,148 108,158 109,166" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M127,140 C130,148 131,158 130,166" />
             <path stroke-width="2.4" d="M105,168 C100,178 97,192 98,208 C99,218 104,226 112,230 C116,232 118,232 120,232" />
             <path stroke-width="2.4" d="M134,168 C139,178 142,192 141,208 C140,220 135,228 127,231 C124,232 122,232 120,232" />
             <path stroke-width="1"   stroke-opacity="0.4" d="M103,182 C106,186 112,188 118,188 C124,188 130,186 132,182" />
             <path stroke-width="1"   stroke-opacity="0.4" d="M100,198 C104,202 111,204 118,204 C125,204 132,202 136,198" />
-            <path stroke-width="2.2" d="M106,200 C102,210 100,220 100,228" /><path stroke-width="2.2" d="M113,202 C112,213 112,222 113,230" />
+            <path stroke-width="2.2" d="M106,200 C102,210 100,220 100,228" />
+            <path stroke-width="2.2" d="M113,202 C112,213 112,222 113,230" />
             <path stroke-width="1.6" d="M99,228 C101,234 108,236 114,232" />
-            <path stroke-width="2.2" d="M132,200 C136,210 138,220 138,228" /><path stroke-width="2.2" d="M125,202 C126,213 126,222 125,230" />
+            <path stroke-width="2.2" d="M132,200 C136,210 138,220 138,228" />
+            <path stroke-width="2.2" d="M125,202 C126,213 126,222 125,230" />
             <path stroke-width="1.6" d="M139,228 C137,234 130,236 124,232" />
-            <path stroke-width="2.2" d="M120,230 C118,236 117,242 118,246" /><path stroke-width="2.2" d="M120,230 C122,236 123,242 122,246" />
+            <path stroke-width="2.2" d="M120,230 C118,236 117,242 118,246" />
+            <path stroke-width="2.2" d="M120,230 C122,236 123,242 122,246" />
             <path stroke-width="2"   d="M116,244 C108,246 98,248 90,248 C87,248 86,246 88,244" />
             <path stroke-width="2"   d="M122,244 C130,246 140,248 148,248 C151,248 152,246 150,244" />
             <path stroke-width="2.2" d="M134,188 C142,182 150,174 152,164 C154,156 150,150 144,152 C140,154 138,162 140,170" />
@@ -118,139 +158,120 @@
       </a>
       <div class="nav-links">
         <a class="nav-link" href="articles.html">Articles</a>
-        <a class="nav-link" href="case-studies.html">Case Studies</a>
+        <a class="nav-link active" href="case-studies.html">Case Studies</a>
         <a class="nav-link" href="projects.html">Projects</a>
       </div>
     </nav>
 
+    <!-- Case Study -->
     <main class="article-wrap">
       <header class="article-header">
-        <div class="article-kicker">AI Experiments &amp; Thinking</div>
-        <h1 class="article-title" id="article-title">Building Robust Synthetic Users</h1>
-        <div class="article-meta"><span id="article-date">Apr 2026</span></div>
+        <div class="article-kicker">Case Study</div>
+        <!-- ② Title is set by JS from the h1 in md-content below ── -->
+        <h1 class="article-title" id="article-title">Case Study Title</h1>
+        <!-- ──────────────────────────────────────────────────────── -->
+        <div class="cs-meta-grid">
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Client</span>
+            <span class="cs-meta-value" id="cs-client">—</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Project</span>
+            <span class="cs-meta-value" id="cs-project">—</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Completed</span>
+            <span class="cs-meta-value" id="cs-completed">—</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">My Role</span>
+            <span class="cs-meta-value" id="cs-role">—</span>
+          </div>
+        </div>
         <hr class="article-header-rule" />
       </header>
-      <div class="article-body" id="article-body"></div>
+
+      <div class="article-body" id="article-body">
+        <!-- Rendered markdown appears here -->
+      </div>
     </main>
 
-    <footer class="article-footer" aria-label="Article footer">
-      <a class="footer-back" href="articles.html">
+    <!-- Footer -->
+    <footer class="article-footer" aria-label="Case study footer">
+      <a class="footer-back" href="case-studies.html">
         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
           <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        All articles
+        All case studies
       </a>
       <span class="footer-site">jakalope.ai</span>
     </footer>
+
   </div>
 
+  <!-- Marked.js — markdown renderer -->
   <script src="marked.min.js"></script>
+
+  <!-- ③ Replace this block with your case study content ── -->
   <script id="md-content" type="text/markdown">
-<!-- date: Apr 2026 -->
-# Building Robust Synthetic Users
+<!-- client: Client Name -->
+<!-- project: Project Name -->
+<!-- completed: Year -->
+<!-- role: Your Role -->
+# Case Study Title
 
-*A friendly guide to making AI-powered "test users" you can actually trust*
+*Opening paragraph — lede or summary of the engagement.*
 
----
+## The challenge
 
-If you've been hearing about synthetic users and you're somewhere between "this sounds amazing" and "this sounds too good to be true" — you're in exactly the right spot. Both reactions are right, and that tension is where the good work is hiding.
+What problem were you solving?
 
-A synthetic user, the way I think about it, is a kind of digital stand-in. You give an AI model enough information about a real type of person — how they think, what they trust, what frustrates them, what they refuse to do — that the AI can act like that person when you put a prototype in front of it, ask them to review your workflow, or talk to them about their job. Done well, you get something close to a real reaction in a fraction of the time. Done poorly, you get a flattering mirror that confirms whatever you already believed.
+## Approach
 
-The good news? The line between those two outcomes is sharper than the field's reputation suggests. So let's walk through it.
+How did you tackle it?
 
-## First, let's draw a clean line between three things people lump together
+## Outcome
 
-This is the single clearest reframe I can offer. Three different artifacts share the word "persona," and they do completely different jobs.
-
-| Artifact | Built from | Optimized for |
-|---|---|---|
-| **Marketing persona** | Demographic and segmentation data | Targeting and messaging |
-| **Research persona** | Interview themes, attitudinal data | Empathy and team alignment |
-| **Synthetic user** | **Behavioral evidence — what people are observed doing** | Usability testing, concept reaction, prototype validation |
-
-A marketing persona is a portrait. A research persona is a sketch. **A synthetic user is a script that can be performed.** The standard for performance is that the AI playing the role behaves the way a real person in that role would behave — including the parts that are inconvenient, contradictory, or unflattering.
-
-If you find yourself adding fields like "favorite coffee" or "weekend hobbies," you've drifted into portrait-making. Lovely. Wrong tool for this job.
-
-## Why most of what's shipping doesn't work (and why yours can)
-
-Let's get the hard part out of the way. Most synthetic users on the market right now are mediocre. [The largest review of synthetic participants ever conducted](https://www.thevoiceofuser.com/the-largest-review-of-synthetic-participants-ever-conducted-found-exactly-what-youd-expect-synthetic-users-dont-work/) reached that conclusion bluntly. [MeasuringU's review of the experimental literature](https://measuringu.com/review-of-experiments-with-synthetic-users/) reached the same one. A 2025 academic survey found that [65% of papers using synthetic personas don't even discuss whether their personas are representative of real people](https://arxiv.org/html/2512.00461v1).
-
-Here's a quick test you can run before you build or buy: ask the synthetic user to try a prototype that is genuinely bad. If it tells you the prototype is "interesting" and "has potential," it's not modeling a person. It's modeling the median LLM response to anything, with a costume on.
-
-So the field is struggling. Don't let that scare you off. *That means the people doing this well are doing something specific and learnable.* Let's get into what that is.
-
-## Five disciplines that change everything
-
-These are the five habits that separate a synthetic user that earns trust from one that flatters you. None of them require a PhD. All of them require some stubbornness.
-
-**1. Behavioral evidence beats attitudinal evidence — every time.** What people *say* they do and what they *actually* do diverge in well-documented ways. Build from session recordings, support tickets, observation, shadowing — the residue of behavior, not the testimony about it.
-
-**2. Three is a pattern. One is a story.** One observation is interesting. Two is a coincidence with potential. Three across distinct sources is the floor of a real behavioral claim. The single biggest quality jump you can make is to refuse to lean on any claim that's been observed only once.
-
-**3. Wrong beliefs are gold.** This one surprises people. If a real user thinks the system "remembers" their preferences when it doesn't — write that wrong belief in *and don't fix it.* Wrong beliefs drive real clicks. There's something almost philosophical here: a real person's mental model is a kind of phenomenology, the world as they experience it, regardless of whether the experience matches the engineering. Flatten that into "what the system actually does" and you've replaced the user with the spec. That's the swap that makes most research feel useful in the room and useless on the floor.
-
-**4. Build at least three emotional states.** Real people aren't the same at 9 a.m. and at 3 p.m. when everything is on fire. *Baseline*, *elevated*, *peak stress* — each with its own response length, friction tolerance, and willingness to explain. If your synthetic user is always cheerful and patient, you're testing the wrong moments.
-
-**5. Name what your user *will not* let AI do.** "The user is skeptical of AI" is not useful. "The user will accept AI suggestions for routine sequencing but will read every digit of any number that could appear in an audit, and will not accept an AI decision on crew legality without seeing the underlying calculation" — *that* is a test scenario. Specificity is the whole game.
-
-## The small habit that does most of the work
-
-Rate every line. Every claim in your synthetic user gets one of four ratings: `[VALIDATED]` (three or more behavioral observations), `[PROBABLE]` (majority pattern), `[OBSERVED]` (single instance, treat as hypothesis), or `[DATA GAP]` (insufficient evidence — name what would close it).
-
-When you read the synthetic user back, the rating tells you exactly how much weight to put on the next decision the line will inform. It removes the option of confident-sounding fiction. It makes the document boring in a way that ends up being useful.
-
-This habit also lets you assign your synthetic user an "approved-for" tier. A persona with a `[DATA GAP]` on Workflow Resistance isn't High confidence — it's whatever the weakest critical field is. Be honest about which fields are critical for your use, and don't promote a persona above the tier its evidence supports.
-
-## A taste
-
-Here's a tiny snippet from a recent synthetic user — just enough to show the shape:
-
-> **AI Expectations:** I'll accept AI suggestions for routine sequencing — what to do next, draft summaries, time estimates. I will not accept AI for anything that touches a regulatory threshold. If a number could show up in an audit, I read every digit, and I assume it's wrong until I check the source. *(Confidence: validated — observed across 5 of 6 sessions.)*
->
-> **A wrong belief I hold (don't correct it):** I think the system remembers my preferences from yesterday's shift. It doesn't — there's no per-user memory — but I behave like it does. Expect me to be confused when a setting I "set" comes back at default. *(Confidence: probable — observed in 3 sessions, never corrected.)*
-
-See what's doing the work? The confidence rating. The named gap. The wrong belief, preserved on purpose. None of it is flashy. All of it is the shape of a real person under pressure.
-
-## You can do this
-
-Synthetic users aren't a magic replacement for real users. Nothing replaces watching a real human use the thing you made. What synthetic users *do* is shrink the loop between research and design — so you can sharpen the prototype before a real participant ever sees it, and save the precious time of real people for the questions that need them.
-
-The discipline that makes them work is honestly less about technology and more about humility. **A synthetic user with honest gaps will teach you more than one with fabricated certainty.** That sentence is the whole craft.
-
-If you're new to this, that's actually an advantage. You don't have habits to unlearn. Pick a role you have research on. Run a small discovery pass — three to five interviews and at least one observation session. Synthesize the evidence with confidence ratings on every claim. Build the three emotional states. Name the resistance points specifically. Put a small prototype in front of it.
-
-You'll learn more from one carefully built synthetic user than from ten flashy ones. The difference is in the structure. Build the boring version well. Then run.
-
----
-
-### Want to go deeper?
-
-- [*Whose Personae? Synthetic Persona Experiments in LLM Research and Pathways to Transparency*](https://arxiv.org/html/2512.00461v1) — the most useful academic paper on what's actually working
-- [*A Review of Experiments with Synthetic Users*](https://measuringu.com/review-of-experiments-with-synthetic-users/) — MeasuringU
-- [*The Largest Review of Synthetic Participants Ever Conducted*](https://www.thevoiceofuser.com/the-largest-review-of-synthetic-participants-ever-conducted-found-exactly-what-youd-expect-synthetic-users-dont-work/) — The Voice of User
-- [*UXAgent: An LLM-Agent-Based Usability Testing Framework*](https://arxiv.org/html/2504.09407v2) — a great look at what synthetic-user testing at scale could become
-- [*Assessing the Reliability of Persona-Conditioned LLMs as Synthetic Survey Respondents*](https://arxiv.org/html/2602.18462) — for the quantitatively curious
+What changed as a result?
   </script>
+  <!-- ─────────────────────────────────────────────────── -->
+
   <script>
     (function () {
       const mdEl = document.getElementById('md-content');
       const bodyEl = document.getElementById('article-body');
       if (!mdEl || !bodyEl || typeof marked === 'undefined') return;
+
       const raw = mdEl.textContent;
       const lines = raw.split('\n');
       const nonEmpty = lines.filter(l => l.trim().length > 0);
-      const indent = nonEmpty.reduce((min, l) => { const m = l.match(/^(\s*)/); return Math.min(min, m ? m[1].length : 0); }, Infinity);
+      const indent = nonEmpty.reduce((min, l) => {
+        const m = l.match(/^(\s*)/);
+        return Math.min(min, m ? m[1].length : 0);
+      }, Infinity);
       const dedented = lines.map(l => l.slice(indent === Infinity ? 0 : indent)).join('\n').trim();
-      const titleMatch = dedented.match(/^#\s+(.+)$/m);
-      const dateMatch  = dedented.match(/^<!--\s*date:\s*(.+?)\s*-->$/m);
-      if (titleMatch) { document.getElementById('article-title').textContent = titleMatch[1]; document.title = titleMatch[1] + ' — jakalope.ai'; }
-      if (dateMatch)  { document.getElementById('article-date').textContent = dateMatch[1]; }
+
+      const titleMatch     = dedented.match(/^#\s+(.+)$/m);
+      const clientMatch    = dedented.match(/^<!--\s*client:\s*(.+?)\s*-->$/m);
+      const projectMatch   = dedented.match(/^<!--\s*project:\s*(.+?)\s*-->$/m);
+      const completedMatch = dedented.match(/^<!--\s*completed:\s*(.+?)\s*-->$/m);
+      const roleMatch      = dedented.match(/^<!--\s*role:\s*(.+?)\s*-->$/m);
+
+      if (titleMatch)     { document.getElementById('article-title').textContent = titleMatch[1]; document.title = titleMatch[1] + ' — jakalope.ai'; }
+      if (clientMatch)    document.getElementById('cs-client').textContent    = clientMatch[1];
+      if (projectMatch)   document.getElementById('cs-project').textContent   = projectMatch[1];
+      if (completedMatch) document.getElementById('cs-completed').textContent = completedMatch[1];
+      if (roleMatch)      document.getElementById('cs-role').textContent      = roleMatch[1];
+
       let content = dedented;
       if (titleMatch) content = content.replace(/^#[ \t]+.+\n?/m, '');
-      if (dateMatch)  content = content.replace(/^<!--\s*date:\s*.+?[ \t]*-->\n?/m, '');
-      bodyEl.innerHTML = marked.parse(content.trimStart(), { breaks: false, gfm: true });
+      content = content.replace(/^<!--\s*client:\s*.+?[ \t]*-->\n?/m, '');
+      content = content.replace(/^<!--\s*project:\s*.+?[ \t]*-->\n?/m, '');
+      content = content.replace(/^<!--\s*completed:\s*.+?[ \t]*-->\n?/m, '');
+      content = content.replace(/^<!--\s*role:\s*.+?[ \t]*-->\n?/m, '');
+      content = content.trimStart();
+
+      bodyEl.innerHTML = marked.parse(content, { breaks: false, gfm: true });
     })();
   </script>
 </body>

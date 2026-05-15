@@ -24,8 +24,10 @@
     .nav-brand:hover { opacity: 0.75; }
     .nav-brand svg { flex-shrink: 0; }
     .nav-wordmark { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(0.75rem, 2.5vw, 0.95rem); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1; }
-    .nav-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
-    .nav-back:hover { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: var(--accent); }
+    .nav-link.active { color: var(--fg); }
     .article-wrap { max-width: 680px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 2rem) clamp(5rem, 12vw, 9rem); }
     .article-header { margin-bottom: 3rem; }
     .article-kicker { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 1.2rem; }
@@ -114,12 +116,11 @@
         </svg>
         <span class="nav-wordmark">JAKALOPE AI</span>
       </a>
-      <a class="nav-back" href="/">
-        <svg width="12" height="9" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-          <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        All posts
-      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="articles.html">Articles</a>
+        <a class="nav-link" href="case-studies.html">Case Studies</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+      </div>
     </nav>
 
     <main class="article-wrap">
@@ -133,11 +134,11 @@
     </main>
 
     <footer class="article-footer" aria-label="Article footer">
-      <a class="footer-back" href="/">
+      <a class="footer-back" href="articles.html">
         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
           <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        All posts
+        All articles
       </a>
       <span class="footer-site">jakalope.ai</span>
     </footer>
