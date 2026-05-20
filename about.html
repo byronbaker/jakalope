@@ -1,24 +1,10 @@
 <!DOCTYPE html>
-<!--
-  Article template — jakalope.ai
-  ─────────────────────────────────────────────────────────
-  To publish a new post:
-    1. Copy this file and rename it (e.g. vibe-design.html)
-    2. Update the three meta fields below: TITLE, DATE, DESCRIPTION
-    3. Replace the markdown inside <script id="md-content">
-    4. Link the new page from index.html
-  ─────────────────────────────────────────────────────────
--->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ① Update these three for each post ──────────────── -->
-  <title>Article Title — jakalope.ai</title>
-  <meta name="description" content="A short description of this post." />
-  <!-- ─────────────────────────────────────────────────── -->
-
+  <title>About — jakalope.ai</title>
+  <meta name="description" content="Byron Baker — designer, strategist, and AI practitioner based in Seattle." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
@@ -96,7 +82,6 @@
 
     .nav-brand svg {
       flex-shrink: 0;
-      /* Stroke scales with the element but stays crisp on HiDPI */
     }
 
     .nav-wordmark {
@@ -201,22 +186,21 @@
       margin-bottom: 1rem;
     }
 
-    .article-meta {
+    .about-photo-placeholder {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1.2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
+      justify-content: center;
+      gap: 0.75rem;
+      width: 160px;
+      height: 160px;
+      border: 1px dashed rgba(255,255,255,0.15);
       color: var(--fg-dim);
-    }
-
-    .article-meta-sep {
-      width: 2px;
-      height: 2px;
-      border-radius: 50%;
-      background: var(--fg-faint);
-      flex-shrink: 0;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
     }
 
     .article-header-rule {
@@ -457,7 +441,7 @@
         <a class="nav-link" href="articles.html">Articles</a>
         <a class="nav-link" href="case-studies.html">Case Studies</a>
         <a class="nav-link" href="projects.html">Projects</a>
-        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link active" href="about.html">About</a>
       </div>
       <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
         <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
@@ -468,16 +452,18 @@
       </button>
     </nav>
 
-    <!-- Article -->
+    <!-- About -->
     <main class="article-wrap">
       <header class="article-header">
-        <div class="article-kicker">AI Experiments &amp; Thinking</div>
-        <!-- ② Update title and date ───────────────────── -->
-        <h1 class="article-title" id="article-title">Article Title</h1>
-        <div class="article-meta">
-          <span id="article-date">Month Year</span>
+        <div class="article-kicker">About</div>
+        <h1 class="article-title">Byron Baker</h1>
+        <div class="about-photo-placeholder" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="18" r="9" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M6 42C6 33.163 14.059 26 24 26C33.941 26 42 33.163 42 42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span>Photo coming soon</span>
         </div>
-        <!-- ─────────────────────────────────────────────── -->
         <hr class="article-header-rule" />
       </header>
 
@@ -487,12 +473,12 @@
     </main>
 
     <!-- Footer -->
-    <footer class="article-footer" aria-label="Article footer">
-      <a class="footer-back" href="articles.html">
+    <footer class="article-footer" aria-label="Page footer">
+      <a class="footer-back" href="/">
         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
           <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        All articles
+        Home
       </a>
       <span class="footer-site">jakalope.ai</span>
     </footer>
@@ -502,48 +488,29 @@
   <!-- Marked.js — markdown renderer -->
   <script src="marked.min.js"></script>
 
-  <!-- ③ Replace this block with your post content ────── -->
   <script id="md-content" type="text/markdown">
-This is where your post content goes. Write in standard Markdown — headings, paragraphs, lists, code blocks, links, and images are all supported.
+Hey, I'm Byron and I've spent nearly 30 years convincing organizations that the thing they thought was impossible was actually just the thing no one had tried yet.
 
-## Example heading
+I'm a designer by training and instinct. I started with a camera — a BFA in photography from the University of Washington — and somewhere along the way traded film for pixels, pixels for systems, and systems for something harder to name: the space where human judgment and machine intelligence meet, and someone has to figure out how to make that feel right.
 
-A paragraph of body copy. You can use **bold**, *italic*, and `inline code`.
+Today I lead design strategy and AI solutions at Blink, a design consultancy within Mphasis, where I work at the intersection of executive vision and hands-on craft. I've helped Fortune 500 companies in financial services, healthcare, energy, and aviation imagine futures they couldn't quite see yet — and then build toward them. Lately, most of that work involves AI: not adding features, but rethinking how intelligent systems and people actually collaborate.
 
-- First item
-- Second item
-- Third item
+I care about the moment when a person encounters an AI system for the first time and either trusts it or doesn't. I think that's the most consequential design problem of the next decade. And I think it's mostly being underestimated.
 
-> A blockquote for pulling out a key idea or quote.
+Outside of work, I go downhill fast. Literally — I'm a certified snowboard instructor and freeride coach, and a lifelong adrenaline junkie who lives in Seattle specifically because the mountains are close. I'm raising two kids in my likeness, which means they are already faster than they should be.
 
-```js
-// A fenced code block
-const example = "hello world";
-console.log(example);
-```
+This site is my personal playground — a place to think out loud, share work I'm proud of, and explore ideas that don't fit neatly into a slide deck. Everything here is my own. The thoughts, opinions, and ideas on this site do not reflect those of my current or past employers.
 
-Links work normally: [example](https://example.com)
+Thanks for stopping by,
+
+Byron
+
+---
+
+Byron Baker
+byron [at] madlounge [dot] com
   </script>
-  <!-- ─────────────────────────────────────────────────── -->
 
-  <script>
-    (function () {
-      var t = document.getElementById('nav-toggle');
-      var l = document.getElementById('nav-links');
-      if (!t || !l) return;
-      t.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var open = l.classList.toggle('open');
-        t.setAttribute('aria-expanded', open ? 'true' : 'false');
-        t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      });
-      document.addEventListener('click', function () {
-        l.classList.remove('open');
-        t.setAttribute('aria-expanded', 'false');
-        t.setAttribute('aria-label', 'Open menu');
-      });
-    })();
-  </script>
   <script>
     (function () {
       const mdEl = document.getElementById('md-content');
@@ -560,26 +527,25 @@ Links work normally: [example](https://example.com)
       }, Infinity);
       const dedented = lines.map(l => l.slice(indent === Infinity ? 0 : indent)).join('\n').trim();
 
-      // Extract title and date from the first h1 and a leading date comment if present
-      // (optional: articles can also just set article-title/article-date in the HTML)
-      const titleMatch = dedented.match(/^#\s+(.+)$/m);
-      const dateMatch  = dedented.match(/^<!--\s*date:\s*(.+?)\s*-->$/m);
-
-      if (titleMatch) {
-        document.getElementById('article-title').textContent = titleMatch[1];
-        document.title = titleMatch[1] + ' — jakalope.ai';
-      }
-      if (dateMatch) {
-        document.getElementById('article-date').textContent = dateMatch[1];
-      }
-
-      // Strip h1 (shown in article-header) and date comment before rendering
-      let content = dedented;
-      if (titleMatch) content = content.replace(/^#[ \t]+.+\n?/m, '');
-      if (dateMatch)  content = content.replace(/^<!--\s*date:\s*.+?[ \t]*-->\n?/m, '');
-      content = content.trimStart();
-
-      bodyEl.innerHTML = marked.parse(content, { breaks: false, gfm: true });
+      bodyEl.innerHTML = marked.parse(dedented, { breaks: false, gfm: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var t = document.getElementById('nav-toggle');
+      var l = document.getElementById('nav-links');
+      if (!t || !l) return;
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = l.classList.toggle('open');
+        t.setAttribute('aria-expanded', open ? 'true' : 'false');
+        t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      document.addEventListener('click', function () {
+        l.classList.remove('open');
+        t.setAttribute('aria-expanded', 'false');
+        t.setAttribute('aria-label', 'Open menu');
+      });
     })();
   </script>
 </body>
