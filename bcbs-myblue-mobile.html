@@ -21,7 +21,7 @@
     .page { position: relative; z-index: 1; }
 
     /* ── Nav ── */
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); position: relative; }
     .nav-brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--fg); transition: opacity 0.2s; }
     .nav-brand:hover { opacity: 0.75; }
     .nav-brand svg { flex-shrink: 0; }
@@ -30,6 +30,15 @@
     .nav-link { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
     .nav-link:hover { color: var(--accent); }
     .nav-link.active { color: var(--fg); }
+    .nav-toggle { display: none; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; color: var(--fg-dim); padding: 0.25rem; transition: color 0.2s; flex-shrink: 0; }
+    .nav-toggle:hover { color: var(--fg); }
+    @media (max-width: 1023px) {
+      .nav-toggle { display: flex; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border-bottom: 1px solid var(--rule); padding: 0.25rem clamp(1rem, 5vw, 2.5rem) 1rem; z-index: 100; }
+      .nav-links.open { display: flex; }
+      .nav-link { padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; }
+      .nav-link:last-child { border-bottom: none; }
+    }
 
     /* ── Article shell ── */
     .article-wrap { max-width: 680px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 2rem) clamp(5rem, 12vw, 9rem); }
@@ -139,11 +148,19 @@
         </svg>
         <span class="nav-wordmark">JAKALOPE AI</span>
       </a>
-      <div class="nav-links">
+      <div class="nav-links" id="nav-links">
         <a class="nav-link" href="articles.html">Articles</a>
         <a class="nav-link active" href="case-studies.html">Case Studies</a>
         <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="about.html">About</a>
       </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
+          <line x1="1" y1="1" x2="21" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="8" x2="21" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
     </nav>
 
     <!-- Case Study -->
@@ -265,6 +282,24 @@ The redesigned MyBlue launched in August 2024. By January 2026: **4.9 stars acro
       content = content.trimStart();
 
       bodyEl.innerHTML = marked.parse(content, { breaks: false, gfm: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var t = document.getElementById('nav-toggle');
+      var l = document.getElementById('nav-links');
+      if (!t || !l) return;
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = l.classList.toggle('open');
+        t.setAttribute('aria-expanded', open ? 'true' : 'false');
+        t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      document.addEventListener('click', function () {
+        l.classList.remove('open');
+        t.setAttribute('aria-expanded', 'false');
+        t.setAttribute('aria-label', 'Open menu');
+      });
     })();
   </script>
 </body>

@@ -19,7 +19,7 @@
     body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.55; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E"); background-size: 200px 200px; mix-blend-mode: overlay; }
     body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%); }
     .page { position: relative; z-index: 1; }
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); position: relative; }
     .nav-brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--fg); transition: opacity 0.2s; }
     .nav-brand:hover { opacity: 0.75; }
     .nav-brand svg { flex-shrink: 0; }
@@ -28,6 +28,15 @@
     .nav-link { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
     .nav-link:hover { color: var(--accent); }
     .nav-link.active { color: var(--fg); }
+    .nav-toggle { display: none; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; color: var(--fg-dim); padding: 0.25rem; transition: color 0.2s; flex-shrink: 0; }
+    .nav-toggle:hover { color: var(--fg); }
+    @media (max-width: 1023px) {
+      .nav-toggle { display: flex; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border-bottom: 1px solid var(--rule); padding: 0.25rem clamp(1rem, 5vw, 2.5rem) 1rem; z-index: 100; }
+      .nav-links.open { display: flex; }
+      .nav-link { padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; }
+      .nav-link:last-child { border-bottom: none; }
+    }
     .article-wrap { max-width: 680px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 2rem) clamp(5rem, 12vw, 9rem); }
     .article-header { margin-bottom: 3rem; }
     .article-kicker { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 1.2rem; }
@@ -116,11 +125,19 @@
         </svg>
         <span class="nav-wordmark">JAKALOPE AI</span>
       </a>
-      <div class="nav-links">
+      <div class="nav-links" id="nav-links">
         <a class="nav-link" href="articles.html">Articles</a>
         <a class="nav-link" href="case-studies.html">Case Studies</a>
         <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="about.html">About</a>
       </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
+          <line x1="1" y1="1" x2="21" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="8" x2="21" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
     </nav>
 
     <main class="article-wrap">
@@ -284,6 +301,24 @@ Do it ten times and you'll have better AX intuition than most teams shipping pro
       if (titleMatch) content = content.replace(/^#[ \t]+.+\n?/m, '');
       if (dateMatch)  content = content.replace(/^<!--\s*date:\s*.+?[ \t]*-->\n?/m, '');
       bodyEl.innerHTML = marked.parse(content.trimStart(), { breaks: false, gfm: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var t = document.getElementById('nav-toggle');
+      var l = document.getElementById('nav-links');
+      if (!t || !l) return;
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = l.classList.toggle('open');
+        t.setAttribute('aria-expanded', open ? 'true' : 'false');
+        t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      document.addEventListener('click', function () {
+        l.classList.remove('open');
+        t.setAttribute('aria-expanded', 'false');
+        t.setAttribute('aria-label', 'Open menu');
+      });
     })();
   </script>
 </body>
