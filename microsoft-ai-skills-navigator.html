@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!--
+  Case Study template — jakalope.ai
+  ─────────────────────────────────────────────────────────
+  To publish a new case study:
+    1. Copy this file and rename it (e.g. acme-checkout.html)
+    2. Update the <title> and <meta name="description"> below
+    3. Add the page to: index.html (Case Studies section), case-studies.html
+    4. Replace the markdown inside <script id="md-content">
+       — Update the four comment fields: client, project, completed, role
+       — Update the h1 title line
+       — Write the body below the h1
+  ─────────────────────────────────────────────────────────
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ① Update these for each case study ──────────────── -->
+  <title>Microsoft — AI Skills Navigator — jakalope.ai</title>
+  <meta name="description" content="Envisioning an agentic, AI-native enterprise learning platform that goes beyond course catalogs to personalized, adaptive skill-building." />
+  <!-- ─────────────────────────────────────────────────── -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0b0a; --fg: #ede8e1; --fg-dim: #9a9088;
+      --fg-faint: #827d78; --accent: #E83A00;
+      --rule: rgba(255,255,255,0.1); --code-bg: rgba(255,255,255,0.05);
+    }
+    html, body { background: var(--bg); color: var(--fg); font-family: 'Courier Prime', monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.7; }
+    body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.55; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E"); background-size: 200px 200px; mix-blend-mode: overlay; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%); }
+    .page { position: relative; z-index: 1; }
+
+    /* ── Nav ── */
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); position: relative; }
+    .nav-brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--fg); transition: opacity 0.2s; }
+    .nav-brand:hover { opacity: 0.75; }
+    .nav-brand svg { flex-shrink: 0; }
+    .nav-wordmark { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(0.75rem, 2.5vw, 0.95rem); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: var(--accent); }
+    .nav-link.active { color: var(--fg); }
+    .nav-toggle { display: none; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; color: var(--fg-dim); padding: 0.25rem; transition: color 0.2s; flex-shrink: 0; }
+    .nav-toggle:hover { color: var(--fg); }
+    @media (max-width: 1023px) {
+      .nav-toggle { display: flex; }
+      .nav-links { display: none; position: absolute; top: 100%; right: 0; min-width: 200px; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border: 1px solid var(--rule); border-top: none; padding: 0.25rem 1.5rem 1rem; z-index: 100; }
+      .nav-links.open { display: flex; }
+      .nav-link { padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+
+    /* ── Article shell ── */
+    .article-wrap { max-width: 680px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 2rem) clamp(5rem, 12vw, 9rem); }
+    .article-header { margin-bottom: 3rem; }
+    .article-kicker { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 1.2rem; }
+    .article-kicker::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--accent); }
+    .article-title { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(1.5rem, 5vw, 2.2rem); line-height: 1.2; letter-spacing: 0.01em; color: var(--fg); margin-bottom: 1rem; }
+    .article-header-rule { margin-top: 2rem; border: none; border-top: 1px solid var(--rule); }
+
+    /* ── Case study metadata grid ── */
+    .cs-meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem 2rem; margin-top: 1.5rem; }
+    .cs-meta-item { display: flex; flex-direction: column; gap: 0.25rem; }
+    .cs-meta-label { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); }
+    .cs-meta-value { font-family: 'Courier Prime', monospace; font-size: 0.88rem; color: var(--fg); }
+    @media (max-width: 479px) { .cs-meta-grid { grid-template-columns: 1fr; } }
+
+    /* ── Rendered markdown body ── */
+    .article-body { font-size: clamp(0.9rem, 2.2vw, 1rem); }
+    .article-body > p:first-child { font-size: clamp(0.95rem, 2.5vw, 1.06rem); color: var(--fg-dim); line-height: 1.75; }
+    .article-body > * + * { margin-top: 1.5em; }
+    .article-body h1, .article-body h2, .article-body h3, .article-body h4 { font-family: 'Space Mono', monospace; font-weight: 700; line-height: 1.25; color: var(--fg); margin-top: 2.5em; margin-bottom: 0.75em; }
+    .article-body h1 { font-size: clamp(1.3rem, 4vw, 1.7rem); }
+    .article-body h2 { font-size: clamp(1.05rem, 3vw, 1.3rem); padding-bottom: 0.4em; border-bottom: 1px solid var(--rule); }
+    .article-body h3 { font-size: clamp(0.95rem, 2.5vw, 1.1rem); color: var(--fg-dim); }
+    .article-body h4 { font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-dim); }
+    .article-body p { line-height: 1.8; }
+    .article-body a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(232,58,0,0.4); text-underline-offset: 3px; transition: text-decoration-color 0.2s; }
+    .article-body a:hover { text-decoration-color: var(--accent); }
+    .article-body strong { color: var(--fg); font-weight: 700; }
+    .article-body em { font-style: italic; color: var(--fg); }
+    .article-body ul, .article-body ol { padding-left: 1.5em; line-height: 1.8; }
+    .article-body ul { list-style: none; }
+    .article-body ul li::before { content: '—'; display: inline-block; margin-left: -1.5em; margin-right: 0.6em; color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.75em; }
+    .article-body ol { list-style: decimal; }
+    .article-body ol li::marker { color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.8em; }
+    .article-body li + li { margin-top: 0.4em; }
+    .article-body li > ul, .article-body li > ol { margin-top: 0.4em; }
+    .article-body blockquote { border-left: 2px solid var(--accent); margin-left: 0; padding: 0.5em 0 0.5em 1.4em; color: var(--fg-dim); font-style: italic; }
+    .article-body blockquote > * + * { margin-top: 0.75em; }
+    .article-body code { font-family: 'Space Mono', monospace; font-size: 0.82em; background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 0.1em 0.4em; color: var(--fg); }
+    .article-body pre { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.07); border-left: 2px solid rgba(232,58,0,0.4); border-radius: 3px; padding: 1.2em 1.4em; overflow-x: auto; line-height: 1.6; }
+    .article-body pre code { background: none; border: none; padding: 0; font-size: 0.82em; }
+    .article-body hr { border: none; border-top: 1px solid var(--rule); margin: 3em 0; }
+    .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+    .article-body th { font-family: 'Space Mono', monospace; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 0.5em 1em 0.5em 0; }
+    .article-body td { border-bottom: 1px solid var(--rule); padding: 0.6em 1em 0.6em 0; vertical-align: top; }
+    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); margin-top: 2em; margin-bottom: 2em; }
+
+    /* ── Footer ── */
+    .article-footer { max-width: 680px; margin: 0 auto; padding: 2rem clamp(1rem, 5vw, 2rem) 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .footer-back:hover { color: var(--accent); }
+    .footer-site { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; color: var(--fg-faint); text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Nav -->
+    <nav class="nav" aria-label="Site navigation">
+      <a class="nav-brand" href="/">
+        <svg width="40" height="40" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#D43301" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path stroke-width="2.4" d="M104,86 C100,72 94,54 86,34 C80,18 76,8 80,4 C83,1 88,4 92,14 C96,24 100,42 106,62" />
+            <path stroke-width="2"   d="M88,38 C80,28 70,18 62,10 C59,7 59,3 63,2 C67,1 73,6 78,14" />
+            <path stroke-width="1.8" d="M84,22 C76,14 68,8 64,2" />
+            <path stroke-width="2"   d="M96,62 C86,54 74,46 66,38 C63,34 64,30 68,29 C73,28 80,34 88,42" />
+            <path stroke-width="2.4" d="M132,86 C136,72 142,54 150,34 C156,18 160,8 156,4 C153,1 148,4 144,14 C140,24 136,42 130,62" />
+            <path stroke-width="2"   d="M148,38 C156,28 166,18 174,10 C177,7 177,3 173,2 C169,1 163,6 158,14" />
+            <path stroke-width="1.8" d="M152,22 C160,14 168,8 172,2" />
+            <path stroke-width="2"   d="M140,62 C150,54 162,46 170,38 C173,34 172,30 168,29 C163,28 156,34 148,42" />
+            <path stroke-width="2.4" d="M106,90 C100,78 97,62 99,48 C101,36 107,30 113,32 C119,34 121,46 119,62 L116,88" />
+            <path stroke-width="2.4" d="M130,90 C136,78 139,62 137,48 C135,36 129,30 123,32 C117,34 115,46 117,62 L120,88" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M108,86 C104,76 103,62 105,50 C107,41 111,37 114,39" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M128,86 C132,76 133,62 131,50 C129,41 125,37 122,39" />
+            <path stroke-width="2.4" d="M107,92 C102,100 100,112 103,122 C106,130 112,136 120,138 C128,140 136,136 140,128 C144,120 143,108 138,98 C135,92 130,88 124,88" />
+            <path stroke-width="2"   d="M108,108 C110,104 115,103 119,105 C121,106 122,109 120,112 C118,115 113,115 110,113 C108,111 107,109 108,108Z" />
+            <path stroke-width="2"   d="M128,108 C130,104 135,103 139,105 C141,106 142,109 140,112 C138,115 133,115 130,113 C128,111 127,109 128,108Z" />
+            <path stroke-width="1.5" d="M113,107 L117,112" />
+            <path stroke-width="1.5" d="M133,107 L137,112" />
+            <path stroke-width="1.4" d="M106,104 C109,101 114,100 118,102" />
+            <path stroke-width="1.4" d="M130,102 C134,100 138,101 141,104" />
+            <path stroke-width="2"   d="M113,120 C115,124 118,126 121,124 C124,122 125,118 122,115" />
+            <path stroke-width="1.2" d="M113,120 C112,116 115,113 118,114" />
+            <path stroke-width="2.4" d="M110,138 C107,146 105,156 105,168" />
+            <path stroke-width="2.4" d="M128,138 C132,146 134,156 134,168" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M111,140 C109,148 108,158 109,166" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M127,140 C130,148 131,158 130,166" />
+            <path stroke-width="2.4" d="M105,168 C100,178 97,192 98,208 C99,218 104,226 112,230 C116,232 118,232 120,232" />
+            <path stroke-width="2.4" d="M134,168 C139,178 142,192 141,208 C140,220 135,228 127,231 C124,232 122,232 120,232" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M103,182 C106,186 112,188 118,188 C124,188 130,186 132,182" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M100,198 C104,202 111,204 118,204 C125,204 132,202 136,198" />
+            <path stroke-width="2.2" d="M106,200 C102,210 100,220 100,228" />
+            <path stroke-width="2.2" d="M113,202 C112,213 112,222 113,230" />
+            <path stroke-width="1.6" d="M99,228 C101,234 108,236 114,232" />
+            <path stroke-width="2.2" d="M132,200 C136,210 138,220 138,228" />
+            <path stroke-width="2.2" d="M125,202 C126,213 126,222 125,230" />
+            <path stroke-width="1.6" d="M139,228 C137,234 130,236 124,232" />
+            <path stroke-width="2.2" d="M120,230 C118,236 117,242 118,246" />
+            <path stroke-width="2.2" d="M120,230 C122,236 123,242 122,246" />
+            <path stroke-width="2"   d="M116,244 C108,246 98,248 90,248 C87,248 86,246 88,244" />
+            <path stroke-width="2"   d="M122,244 C130,246 140,248 148,248 C151,248 152,246 150,244" />
+            <path stroke-width="2.2" d="M134,188 C142,182 150,174 152,164 C154,156 150,150 144,152 C140,154 138,162 140,170" />
+            <path stroke-width="1.4" d="M136,186 C142,178 146,170 144,162" stroke-opacity="0.5" />
+            <path stroke-width="1.2" d="M148,170 C152,162 152,155 149,152" stroke-opacity="0.4" />
+          </g>
+        </svg>
+        <span class="nav-wordmark">JAKALOPE AI</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a class="nav-link" href="articles.html">Articles</a>
+        <a class="nav-link active" href="case-studies.html">Case Studies</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="about.html">About</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
+          <line x1="1" y1="1" x2="21" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="8" x2="21" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Case Study -->
+    <main class="article-wrap">
+      <header class="article-header">
+        <div class="article-kicker">Case Study</div>
+        <!-- ② Title is set by JS from the h1 in md-content below ── -->
+        <h1 class="article-title" id="article-title">Case Study Title</h1>
+        <!-- ──────────────────────────────────────────────────────── -->
+        <div class="cs-meta-grid">
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Client</span>
+            <span class="cs-meta-value" id="cs-client">—</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Project</span>
+            <span class="cs-meta-value" id="cs-project">—</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Completed</span>
+            <span class="cs-meta-value" id="cs-completed">—</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">My Role</span>
+            <span class="cs-meta-value" id="cs-role">—</span>
+          </div>
+        </div>
+        <hr class="article-header-rule" />
+      </header>
+
+      <div class="article-body" id="article-body">
+        <!-- Rendered markdown appears here -->
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="article-footer" aria-label="Case study footer">
+      <a class="footer-back" href="case-studies.html">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+          <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All case studies
+      </a>
+      <span class="footer-site">jakalope.ai</span>
+    </footer>
+
+  </div>
+
+  <!-- Marked.js — markdown renderer -->
+  <script src="marked.min.js"></script>
+
+  <!-- ③ Replace this block with your case study content ── -->
+  <script id="md-content" type="text/markdown">
+<!-- client: Microsoft -->
+<!-- project: AI Skills Navigator -->
+<!-- completed: 2026 -->
+<!-- role: AI Solutions Lead -->
+# Microsoft — AI Skills Navigator
+
+**Reimagining enterprise learning for a world where AI changes what it means to know something**
+
+Microsoft already had two of the most widely used learning platforms in the world — Microsoft Learn and LinkedIn Learning. What they didn't have was a platform built for the moment we're actually in: one where the skills workers need are changing faster than any catalog can track, where the gap between completing a course and applying knowledge is where most learning dies, and where AI itself is both the subject everyone urgently needs to understand and the tool that should be reshaping how understanding happens.
+
+The brief was to envision an AI-native learning platform — one that went beyond certification tracks and course catalogs to offer something genuinely different: bespoke, adaptive, skills-focused pathways that met learners where they were and moved with them.
+
+### Approach
+
+We opened with research across both sides of the learning relationship: learners and the decision-makers who curate, mandate, and measure learning for their organizations. Nineteen 90-minute interviews — business professionals, IT professionals, team leads, L&D leaders, and C-suite stakeholders — gave us a clear picture of why enterprise learning consistently underdelivers despite significant investment.
+
+The core finding was sharp enough to drive the entire design direction: **consumption is not engagement, and engagement is not transformation.** People complete courses. They do not necessarily learn from them. The platforms that existed — including Microsoft's own — optimized for completion metrics while the actual goal, behavior change and skill application, remained largely unaddressed. Compounding this: choosing the right course in the first place was overwhelming, the connection between learning and real work was almost never achieved, and there was an acute, urgent need to learn about AI that was running directly into anxiety about what AI was doing to the nature of work itself.
+
+The solution wasn't more content or a better recommendation engine. It required rethinking the underlying model — from a library users navigate to an agent that navigates with them.
+
+We developed thinking style archetypes from the research to capture the range of learner motivations, AI sentiments, and decision-making patterns. These guided the concept design phase, where we explored the visual language and interaction model through moodboards and concept cards before moving into strategic narratives — full north star stories that made the agentic vision concrete enough to put in front of users for feedback.
+
+The resulting experience framework centered on an agentic front door: an AI that could assess where a learner was, understand what their role and goals required, and build a personalized learning plan that adapted as they progressed. Signature experiences included dynamic personalized homepages, adaptable learning formats, and skill tracking that connected learning directly to job-relevant capability — not just completed coursework.
+
+### Outcome
+
+The platform launched as Microsoft AI Skills Navigator. The work gave Microsoft a product direction grounded in how people actually learn — and fail to learn — at work, a design language for an AI-native experience distinct from anything in their existing portfolio, and a strategic framework for making learning something that compounds rather than accumulates.
+
+Reference available on request.
+
+---
+
+*Disciplines: AI/ML UX (AX) · Experience strategy · Research · Concept development · Learning & development · Enterprise platforms*
+  </script>
+  <!-- ─────────────────────────────────────────────────── -->
+
+  <script>
+    (function () {
+      const mdEl = document.getElementById('md-content');
+      const bodyEl = document.getElementById('article-body');
+      if (!mdEl || !bodyEl || typeof marked === 'undefined') return;
+
+      const raw = mdEl.textContent;
+      const lines = raw.split('\n');
+      const nonEmpty = lines.filter(l => l.trim().length > 0);
+      const indent = nonEmpty.reduce((min, l) => {
+        const m = l.match(/^(\s*)/);
+        return Math.min(min, m ? m[1].length : 0);
+      }, Infinity);
+      const dedented = lines.map(l => l.slice(indent === Infinity ? 0 : indent)).join('\n').trim();
+
+      const titleMatch     = dedented.match(/^#\s+(.+)$/m);
+      const clientMatch    = dedented.match(/^<!--\s*client:\s*(.+?)\s*-->$/m);
+      const projectMatch   = dedented.match(/^<!--\s*project:\s*(.+?)\s*-->$/m);
+      const completedMatch = dedented.match(/^<!--\s*completed:\s*(.+?)\s*-->$/m);
+      const roleMatch      = dedented.match(/^<!--\s*role:\s*(.+?)\s*-->$/m);
+
+      if (titleMatch)     { document.getElementById('article-title').textContent = titleMatch[1]; document.title = titleMatch[1] + ' — jakalope.ai'; }
+      if (clientMatch)    document.getElementById('cs-client').textContent    = clientMatch[1];
+      if (projectMatch)   document.getElementById('cs-project').textContent   = projectMatch[1];
+      if (completedMatch) document.getElementById('cs-completed').textContent = completedMatch[1];
+      if (roleMatch)      document.getElementById('cs-role').textContent      = roleMatch[1];
+
+      let content = dedented;
+      if (titleMatch) content = content.replace(/^#[ \t]+.+\n?/m, '');
+      content = content.replace(/^<!--\s*client:\s*.+?[ \t]*-->\n?/m, '');
+      content = content.replace(/^<!--\s*project:\s*.+?[ \t]*-->\n?/m, '');
+      content = content.replace(/^<!--\s*completed:\s*.+?[ \t]*-->\n?/m, '');
+      content = content.replace(/^<!--\s*role:\s*.+?[ \t]*-->\n?/m, '');
+      content = content.trimStart();
+
+      bodyEl.innerHTML = marked.parse(content, { breaks: false, gfm: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var t = document.getElementById('nav-toggle');
+      var l = document.getElementById('nav-links');
+      if (!t || !l) return;
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = l.classList.toggle('open');
+        t.setAttribute('aria-expanded', open ? 'true' : 'false');
+        t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      document.addEventListener('click', function () {
+        l.classList.remove('open');
+        t.setAttribute('aria-expanded', 'false');
+        t.setAttribute('aria-label', 'Open menu');
+      });
+    })();
+  </script>
+</body>
+</html>
