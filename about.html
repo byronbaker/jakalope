@@ -186,6 +186,13 @@
       margin-bottom: 1rem;
     }
 
+    .about-intro {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
     .about-photo {
       width: 210px;
       height: 280px;
@@ -193,8 +200,16 @@
       object-fit: cover;
       object-position: center top;
       border: 1px solid var(--rule);
-      margin-bottom: 2rem;
+      flex-shrink: 0;
       display: block;
+    }
+
+    .about-name {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      line-height: 1.0;
+      color: var(--fg);
     }
 
     .article-header-rule {
@@ -450,8 +465,10 @@
     <main class="article-wrap">
       <header class="article-header">
         <div class="article-kicker">About</div>
-        <h1 class="article-title">Byron Baker</h1>
-        <img class="about-photo" src="images/byron-baker.jpg" alt="Byron Baker" />
+        <div class="about-intro">
+          <img class="about-photo" src="images/byron-baker.jpg" alt="Byron Baker" />
+          <h1 class="about-name"><span>Byron</span><br /><span>Baker</span></h1>
+        </div>
         <hr class="article-header-rule" />
       </header>
 
