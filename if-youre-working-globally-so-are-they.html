@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>If You're Working Globally, So Are They — jakalope.ai</title>
+  <meta name="description" content="The lessons from distributed, cross-cultural teams that nobody puts in the handbook." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0b0a; --fg: #ede8e1; --fg-dim: #9a9088;
+      --fg-faint: #827d78; --accent: #E83A00;
+      --rule: rgba(255,255,255,0.1); --code-bg: rgba(255,255,255,0.05);
+    }
+    html, body { background: var(--bg); color: var(--fg); font-family: 'Courier Prime', monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.7; }
+    body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.55; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E"); background-size: 200px 200px; mix-blend-mode: overlay; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%); }
+    .page { position: relative; z-index: 1; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); position: relative; }
+    .nav-brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--fg); transition: opacity 0.2s; }
+    .nav-brand:hover { opacity: 0.75; }
+    .nav-brand svg { flex-shrink: 0; }
+    .nav-wordmark { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(0.75rem, 2.5vw, 0.95rem); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: var(--accent); }
+    .nav-link.active { color: var(--fg); }
+    .nav-toggle { display: none; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; color: var(--fg-dim); padding: 0.25rem; transition: color 0.2s; flex-shrink: 0; }
+    .nav-toggle:hover { color: var(--fg); }
+    @media (max-width: 1023px) {
+      .nav-toggle { display: flex; }
+      .nav-links { display: none; position: absolute; top: 100%; right: 0; min-width: 200px; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border: 1px solid var(--rule); border-top: none; padding: 0.25rem 1.5rem 1rem; z-index: 100; }
+      .nav-links.open { display: flex; }
+      .nav-link { padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+    .article-wrap { max-width: 680px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 2rem) clamp(5rem, 12vw, 9rem); }
+    .article-header { margin-bottom: 3rem; }
+    .article-kicker { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 1.2rem; }
+    .article-kicker::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--accent); }
+    .article-title { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(1.5rem, 5vw, 2.2rem); line-height: 1.2; letter-spacing: 0.01em; color: var(--fg); margin-bottom: 1rem; }
+    .article-meta { display: flex; align-items: center; gap: 1.2rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; color: var(--fg-dim); }
+    .article-header-rule { margin-top: 2rem; border: none; border-top: 1px solid var(--rule); }
+    .article-body { font-size: clamp(0.9rem, 2.2vw, 1rem); }
+    .article-body > p:first-child { font-size: clamp(0.95rem, 2.5vw, 1.06rem); color: var(--fg-dim); line-height: 1.75; }
+    .article-body > * + * { margin-top: 1.5em; }
+    .article-body h1, .article-body h2, .article-body h3, .article-body h4 { font-family: 'Space Mono', monospace; font-weight: 700; line-height: 1.25; color: var(--fg); margin-top: 2.5em; margin-bottom: 0.75em; }
+    .article-body h1 { font-size: clamp(1.3rem, 4vw, 1.7rem); }
+    .article-body h2 { font-size: clamp(1.05rem, 3vw, 1.3rem); padding-bottom: 0.4em; border-bottom: 1px solid var(--rule); }
+    .article-body h3 { font-size: clamp(0.95rem, 2.5vw, 1.1rem); color: var(--fg-dim); }
+    .article-body h4 { font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-dim); }
+    .article-body p { line-height: 1.8; }
+    .article-body a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(232,58,0,0.4); text-underline-offset: 3px; transition: text-decoration-color 0.2s; }
+    .article-body a:hover { text-decoration-color: var(--accent); }
+    .article-body strong { color: var(--fg); font-weight: 700; }
+    .article-body em { font-style: italic; color: var(--fg); }
+    .article-body ul, .article-body ol { padding-left: 1.5em; line-height: 1.8; }
+    .article-body ul { list-style: none; }
+    .article-body ul li::before { content: '—'; display: inline-block; margin-left: -1.5em; margin-right: 0.6em; color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.75em; }
+    .article-body ol { list-style: decimal; }
+    .article-body ol li::marker { color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.8em; }
+    .article-body li + li { margin-top: 0.4em; }
+    .article-body li > ul, .article-body li > ol { margin-top: 0.4em; }
+    .article-body blockquote { border-left: 2px solid var(--accent); margin-left: 0; padding: 0.5em 0 0.5em 1.4em; color: var(--fg-dim); font-style: italic; }
+    .article-body blockquote > * + * { margin-top: 0.75em; }
+    .article-body code { font-family: 'Space Mono', monospace; font-size: 0.82em; background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 0.1em 0.4em; color: var(--fg); }
+    .article-body pre { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.07); border-left: 2px solid rgba(232,58,0,0.4); border-radius: 3px; padding: 1.2em 1.4em; overflow-x: auto; line-height: 1.6; }
+    .article-body pre code { background: none; border: none; padding: 0; font-size: 0.82em; }
+    .article-body hr { border: none; border-top: 1px solid var(--rule); margin: 3em 0; }
+    .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+    .article-body th { font-family: 'Space Mono', monospace; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 0.5em 1em 0.5em 0; }
+    .article-body td { border-bottom: 1px solid var(--rule); padding: 0.6em 1em 0.6em 0; vertical-align: top; }
+    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); }
+    .article-footer { max-width: 680px; margin: 0 auto; padding: 2rem clamp(1rem, 5vw, 2rem) 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .footer-back:hover { color: var(--accent); }
+    .footer-site { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; color: var(--fg-faint); text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav" aria-label="Site navigation">
+      <a class="nav-brand" href="/">
+        <svg width="40" height="40" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#D43301" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path stroke-width="2.4" d="M104,86 C100,72 94,54 86,34 C80,18 76,8 80,4 C83,1 88,4 92,14 C96,24 100,42 106,62" />
+            <path stroke-width="2"   d="M88,38 C80,28 70,18 62,10 C59,7 59,3 63,2 C67,1 73,6 78,14" />
+            <path stroke-width="1.8" d="M84,22 C76,14 68,8 64,2" />
+            <path stroke-width="2"   d="M96,62 C86,54 74,46 66,38 C63,34 64,30 68,29 C73,28 80,34 88,42" />
+            <path stroke-width="2.4" d="M132,86 C136,72 142,54 150,34 C156,18 160,8 156,4 C153,1 148,4 144,14 C140,24 136,42 130,62" />
+            <path stroke-width="2"   d="M148,38 C156,28 166,18 174,10 C177,7 177,3 173,2 C169,1 163,6 158,14" />
+            <path stroke-width="1.8" d="M152,22 C160,14 168,8 172,2" />
+            <path stroke-width="2"   d="M140,62 C150,54 162,46 170,38 C173,34 172,30 168,29 C163,28 156,34 148,42" />
+            <path stroke-width="2.4" d="M106,90 C100,78 97,62 99,48 C101,36 107,30 113,32 C119,34 121,46 119,62 L116,88" />
+            <path stroke-width="2.4" d="M130,90 C136,78 139,62 137,48 C135,36 129,30 123,32 C117,34 115,46 117,62 L120,88" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M108,86 C104,76 103,62 105,50 C107,41 111,37 114,39" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M128,86 C132,76 133,62 131,50 C129,41 125,37 122,39" />
+            <path stroke-width="2.4" d="M107,92 C102,100 100,112 103,122 C106,130 112,136 120,138 C128,140 136,136 140,128 C144,120 143,108 138,98 C135,92 130,88 124,88" />
+            <path stroke-width="2"   d="M108,108 C110,104 115,103 119,105 C121,106 122,109 120,112 C118,115 113,115 110,113 C108,111 107,109 108,108Z" />
+            <path stroke-width="2"   d="M128,108 C130,104 135,103 139,105 C141,106 142,109 140,112 C138,115 133,115 130,113 C128,111 127,109 128,108Z" />
+            <path stroke-width="1.5" d="M113,107 L117,112" /><path stroke-width="1.5" d="M133,107 L137,112" />
+            <path stroke-width="1.4" d="M106,104 C109,101 114,100 118,102" /><path stroke-width="1.4" d="M130,102 C134,100 138,101 141,104" />
+            <path stroke-width="2"   d="M113,120 C115,124 118,126 121,124 C124,122 125,118 122,115" />
+            <path stroke-width="1.2" d="M113,120 C112,116 115,113 118,114" />
+            <path stroke-width="2.4" d="M110,138 C107,146 105,156 105,168" /><path stroke-width="2.4" d="M128,138 C132,146 134,156 134,168" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M111,140 C109,148 108,158 109,166" /><path stroke-width="1" stroke-opacity="0.5" d="M127,140 C130,148 131,158 130,166" />
+            <path stroke-width="2.4" d="M105,168 C100,178 97,192 98,208 C99,218 104,226 112,230 C116,232 118,232 120,232" />
+            <path stroke-width="2.4" d="M134,168 C139,178 142,192 141,208 C140,220 135,228 127,231 C124,232 122,232 120,232" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M103,182 C106,186 112,188 118,188 C124,188 130,186 132,182" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M100,198 C104,202 111,204 118,204 C125,204 132,202 136,198" />
+            <path stroke-width="2.2" d="M106,200 C102,210 100,220 100,228" /><path stroke-width="2.2" d="M113,202 C112,213 112,222 113,230" />
+            <path stroke-width="1.6" d="M99,228 C101,234 108,236 114,232" />
+            <path stroke-width="2.2" d="M132,200 C136,210 138,220 138,228" /><path stroke-width="2.2" d="M125,202 C126,213 126,222 125,230" />
+            <path stroke-width="1.6" d="M139,228 C137,234 130,236 124,232" />
+            <path stroke-width="2.2" d="M120,230 C118,236 117,242 118,246" /><path stroke-width="2.2" d="M120,230 C122,236 123,242 122,246" />
+            <path stroke-width="2"   d="M116,244 C108,246 98,248 90,248 C87,248 86,246 88,244" />
+            <path stroke-width="2"   d="M122,244 C130,246 140,248 148,248 C151,248 152,246 150,244" />
+            <path stroke-width="2.2" d="M134,188 C142,182 150,174 152,164 C154,156 150,150 144,152 C140,154 138,162 140,170" />
+            <path stroke-width="1.4" d="M136,186 C142,178 146,170 144,162" stroke-opacity="0.5" />
+            <path stroke-width="1.2" d="M148,170 C152,162 152,155 149,152" stroke-opacity="0.4" />
+          </g>
+        </svg>
+        <span class="nav-wordmark">JAKALOPE AI</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a class="nav-link active" href="articles.html">Articles</a>
+        <a class="nav-link" href="case-studies.html">Case Studies</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="about.html">About</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
+          <line x1="1" y1="1" x2="21" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="8" x2="21" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </nav>
+
+    <main class="article-wrap">
+      <header class="article-header">
+        <div class="article-kicker">AI Experiments &amp; Thinking</div>
+        <h1 class="article-title" id="article-title">If You're Working Globally, So Are They</h1>
+        <div class="article-meta"><span id="article-date">Jul 2025</span></div>
+        <hr class="article-header-rule" />
+      </header>
+      <div class="article-body" id="article-body"></div>
+    </main>
+
+    <footer class="article-footer" aria-label="Article footer">
+      <a class="footer-back" href="articles.html">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+          <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All articles
+      </a>
+      <span class="footer-site">jakalope.ai</span>
+    </footer>
+  </div>
+
+  <script src="marked.min.js"></script>
+  <script id="md-content" type="text/markdown">
+<!-- date: Jul 2025 -->
+# If You're Working Globally, So Are They
+
+*The lessons from distributed, cross-cultural teams that nobody puts in the handbook*
+
+---
+
+Most of the guidance on global teams focuses on the mechanics: how to run a standup across time zones, how to use async tools effectively, how to structure handoffs so nothing falls through the cracks. That stuff matters. But in my experience, the mechanics aren't what makes or breaks a global team. What makes or breaks it is subtler — and it almost never shows up in the onboarding doc.
+
+I've worked with teams across Japan, India, Belgium, the UK, Costa Rica, and Brazil over the past several years. I've flown to Barcelona and spent three days in the same conference room without seeing the city. I've gotten a personal invitation from a client's VP to visit Japan — not to close a deal, but because he said, *"I want you to come so that you can fully understand not just who you are working with, but the environment we work and live in."* That invitation changed how I think about this work.
+
+The mechanics of global collaboration I picked up fast. The other lessons took longer.
+
+## The story that reframed everything for me
+
+Early in my time working across our global delivery organization, a colleague shared something I've never forgotten. On his very first project working onshore in the US, he walked in overwhelmed — the work was significant, his English wasn't fully confident, and he was terrified of his first meeting. So he hid. Found a dark conference room and hoped nobody would notice he was missing.
+
+Someone went room to room until they found him. And when she did, she didn't make it a thing. She just told him it would be okay — that he should focus on the tech he knew and not worry about the stuff he didn't, like whether he had an opinion on the NFL game that weekend.
+
+That's the whole post, honestly. But let me try to make it more useful than that.
+
+## Three misconceptions worth dismantling
+
+I've organized my thinking on this around three beliefs that seem reasonable and turn out to be wrong — sometimes costly wrong.
+
+---
+
+**Misconception 1: If everyone is speaking the same language, we must have clear communication.**
+
+A meeting where everyone is speaking English doesn't mean everyone understands the same thing. Idioms land differently. Levels of directness differ. Phrasing that reads as aggressive in one register reads as matter-of-fact in another.
+
+I've watched a straightforward status update — "it's not taken up with urgency" — cause visible frustration on the receiving end, when the message was simply "I haven't heard back yet." I've seen messages that read, on the surface, like someone is upset, when the writer was just being efficient in a second language.
+
+The mental habit that fixes this more than any other: **react to intent, not to words.** When a message reads as hostile or accusatory, pause before responding. Ask yourself what a charitable reading of that message would be. Ask a clarifying question rather than addressing the tone. Nine times out of ten, there's no tone — there's just a different style.
+
+This isn't about lowering standards for communication. It's about recognizing that clear communication requires more than a shared vocabulary. It requires shared context, shared cultural assumption, and — most importantly — the grace to assume good faith when the words don't quite land.
+
+---
+
+**Misconception 2: My working style is better than your working style.**
+
+We don't usually say this out loud. But we act on it constantly.
+
+I've noticed it in how I used to react when a decision-making process felt slower than expected, or when an approval required more layers than I thought necessary, or when someone's response to a deadline conveyed a different relationship to urgency than mine. My instinct was to interpret those differences as inefficiencies to be fixed, rather than as a different but coherent way of working.
+
+The 4-way stop is a useful image here. In Portland, four drivers approach an intersection and everyone waits for everyone else to go — including pedestrians on the corner. It's orderly, considerate, and slow. In Bangalore, the same number of vehicles merge through an intersection as a single flowing organism, reading each other's movements in real time. Neither system is wrong. They're both functional responses to different conditions and different collective agreements about how movement should work.
+
+When I encounter a working style that doesn't match mine, the honest first question isn't "how do I fix this?" It's "what is this optimized for, and am I actually understanding it?" Usually, when I get there, what looked like an inefficiency turns out to be a very reasonable adaptation to a different set of constraints.
+
+Some practical things I've started doing: clarify decision ownership explicitly at the start of projects, not when a conflict arises. Use something like a RACI to make visible who approves what, rather than leaving it to assumption. Don't schedule send — it's a small thing, but if a colleague is eight hours ahead and I send a message at the end of my day, I'm starting their morning with my urgency. That's not fair.
+
+---
+
+**Misconception 3: Cultural differences only affect communication.**
+
+This one is the most expensive misconception, because it lets you fix the surface issue — you get clearer about how you write messages, maybe you slow down your idioms — and miss the deeper one.
+
+Cultural context shapes how decisions get made, who is expected to speak in a room, how disagreement is expressed, what "done" means, what risk tolerance looks like, and what it means to give or receive feedback. It shapes who gets heard in a meeting and who goes quiet. It shapes whether a junior team member will push back on a senior one, or whether they'll nod and wait for a private moment.
+
+I've been in meetings where the room agreed on everything out loud and then nothing moved. I've been in meetings where nobody said anything that sounded like disagreement, and then been told afterward that the plan had three serious concerns. Neither room was dishonest. Both rooms were behaving exactly as they were culturally trained to behave. I was the one who didn't know how to read the signal.
+
+The adjustment I've found most useful: **stop designing meetings around the implicit assumption that good ideas rise naturally to the surface.** They don't, and they rise even less naturally across cultural and hierarchical contexts. Build in structure for divergent thinking. Ask for the challenge explicitly — "how could this fail?" gives people permission to voice what they might otherwise hold back. Invite perspectives on comparable situations from somewhere else: *"What's this problem like in your context?"* You get different answers, and the answers are almost always the most useful thing in the room.
+
+## The leadership habit that changed how I show up
+
+There's a moment I return to often. A team I was working with was tense — new faces, no cameras on, people talking over each other. I turned my camera on and said a few words of welcome. Several other cameras came on. The meeting became a meeting.
+
+It sounds small. It is small. But showing your face across distance is not nothing — the human dimension of actually seeing someone's reaction is one of the most underrated tools in global collaboration. Trust moves faster when it has a face attached.
+
+The other leadership shift: I used to treat cross-cultural tension as a communication problem to solve. Now I treat it more often as signal — as a place where the group's diversity is generating something useful, if I create the conditions to hear it. The goal isn't smooth agreement. It's the kind of productive friction that produces better outcomes than any one cultural perspective would have reached alone. That requires a leader who isn't threatened by disagreement, who can hold the direction while inviting the challenge, and who understands that consensus that's been genuinely argued through is worth more than consensus that was performed.
+
+## The line I keep coming back to
+
+Late in a conversation I had about this work, someone offered the simplest version of everything I've said here:
+
+*"If you are working globally with them, then they are working globally with you."*
+
+The burden of adaptation doesn't belong to the person who's newer to the context, or farther from headquarters, or less fluent in the dominant language. It belongs to everyone on the team, equally. When you internalize that — when you stop thinking of "global" as an attribute of your teammates and start thinking of it as an attribute of the work — the whole thing starts to function differently.
+
+You can't find your way back if you were never lost. The moments that have taught me the most about working across difference are the ones where I got something wrong, noticed it, and asked about it. That practice doesn't stop being necessary. It just gets faster.
+
+---
+
+### Want to go deeper?
+
+- [*The Culture Map*](https://erinmeyer.com/book/) — Erin Meyer — the most practically useful book I've read on navigating cultural differences in a business context
+- [*Working Across Cultures*](https://hbr.org/topic/subject/cross-cultural-management) — HBR's cross-cultural management collection
+- [*The Art of Communicating*](https://www.worldcat.org/title/art-of-communicating/oclc/828590265) — Thich Nhat Hanh — not a business book, but the chapters on listening across difference are the best I've encountered anywhere
+- [*Humble Inquiry*](https://www.amazon.com/Humble-Inquiry-Gentle-Instead-Telling/dp/1609949811) — Edgar Schein — on asking rather than telling, and why it matters more in high-stakes, cross-cultural contexts
+  </script>
+  <script>
+    (function () {
+      const mdEl = document.getElementById('md-content');
+      const bodyEl = document.getElementById('article-body');
+      if (!mdEl || !bodyEl || typeof marked === 'undefined') return;
+      const raw = mdEl.textContent;
+      const lines = raw.split('\n');
+      const nonEmpty = lines.filter(l => l.trim().length > 0);
+      const indent = nonEmpty.reduce((min, l) => { const m = l.match(/^(\s*)/); return Math.min(min, m ? m[1].length : 0); }, Infinity);
+      const dedented = lines.map(l => l.slice(indent === Infinity ? 0 : indent)).join('\n').trim();
+      const titleMatch = dedented.match(/^#\s+(.+)$/m);
+      const dateMatch  = dedented.match(/^<!--\s*date:\s*(.+?)\s*-->$/m);
+      if (titleMatch) { document.getElementById('article-title').textContent = titleMatch[1]; document.title = titleMatch[1] + ' — jakalope.ai'; }
+      if (dateMatch)  { document.getElementById('article-date').textContent = dateMatch[1]; }
+      let content = dedented;
+      if (titleMatch) content = content.replace(/^#[ \t]+.+\n?/m, '');
+      if (dateMatch)  content = content.replace(/^<!--\s*date:\s*.+?[ \t]*-->\n?/m, '');
+      bodyEl.innerHTML = marked.parse(content.trimStart(), { breaks: false, gfm: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var t = document.getElementById('nav-toggle');
+      var l = document.getElementById('nav-links');
+      if (!t || !l) return;
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = l.classList.toggle('open');
+        t.setAttribute('aria-expanded', open ? 'true' : 'false');
+        t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      document.addEventListener('click', function () {
+        l.classList.remove('open');
+        t.setAttribute('aria-expanded', 'false');
+        t.setAttribute('aria-label', 'Open menu');
+      });
+    })();
+  </script>
+</body>
+</html>

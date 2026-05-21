@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Innovation Lives at the Edges — jakalope.ai</title>
+  <meta name="description" content="Why the most transformative work happens in the places where nobody is competing yet." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0b0a; --fg: #ede8e1; --fg-dim: #9a9088;
+      --fg-faint: #827d78; --accent: #E83A00;
+      --rule: rgba(255,255,255,0.1); --code-bg: rgba(255,255,255,0.05);
+    }
+    html, body { background: var(--bg); color: var(--fg); font-family: 'Courier Prime', monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.7; }
+    body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.55; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E"); background-size: 200px 200px; mix-blend-mode: overlay; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%); }
+    .page { position: relative; z-index: 1; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); position: relative; }
+    .nav-brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--fg); transition: opacity 0.2s; }
+    .nav-brand:hover { opacity: 0.75; }
+    .nav-brand svg { flex-shrink: 0; }
+    .nav-wordmark { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(0.75rem, 2.5vw, 0.95rem); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: var(--accent); }
+    .nav-link.active { color: var(--fg); }
+    .nav-toggle { display: none; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; color: var(--fg-dim); padding: 0.25rem; transition: color 0.2s; flex-shrink: 0; }
+    .nav-toggle:hover { color: var(--fg); }
+    @media (max-width: 1023px) {
+      .nav-toggle { display: flex; }
+      .nav-links { display: none; position: absolute; top: 100%; right: 0; min-width: 200px; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border: 1px solid var(--rule); border-top: none; padding: 0.25rem 1.5rem 1rem; z-index: 100; }
+      .nav-links.open { display: flex; }
+      .nav-link { padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+    .article-wrap { max-width: 680px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 2rem) clamp(5rem, 12vw, 9rem); }
+    .article-header { margin-bottom: 3rem; }
+    .article-kicker { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 1.2rem; }
+    .article-kicker::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--accent); }
+    .article-title { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(1.5rem, 5vw, 2.2rem); line-height: 1.2; letter-spacing: 0.01em; color: var(--fg); margin-bottom: 1rem; }
+    .article-meta { display: flex; align-items: center; gap: 1.2rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; color: var(--fg-dim); }
+    .article-header-rule { margin-top: 2rem; border: none; border-top: 1px solid var(--rule); }
+    .article-body { font-size: clamp(0.9rem, 2.2vw, 1rem); }
+    .article-body > p:first-child { font-size: clamp(0.95rem, 2.5vw, 1.06rem); color: var(--fg-dim); line-height: 1.75; }
+    .article-body > * + * { margin-top: 1.5em; }
+    .article-body h1, .article-body h2, .article-body h3, .article-body h4 { font-family: 'Space Mono', monospace; font-weight: 700; line-height: 1.25; color: var(--fg); margin-top: 2.5em; margin-bottom: 0.75em; }
+    .article-body h1 { font-size: clamp(1.3rem, 4vw, 1.7rem); }
+    .article-body h2 { font-size: clamp(1.05rem, 3vw, 1.3rem); padding-bottom: 0.4em; border-bottom: 1px solid var(--rule); }
+    .article-body h3 { font-size: clamp(0.95rem, 2.5vw, 1.1rem); color: var(--fg-dim); }
+    .article-body h4 { font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-dim); }
+    .article-body p { line-height: 1.8; }
+    .article-body a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(232,58,0,0.4); text-underline-offset: 3px; transition: text-decoration-color 0.2s; }
+    .article-body a:hover { text-decoration-color: var(--accent); }
+    .article-body strong { color: var(--fg); font-weight: 700; }
+    .article-body em { font-style: italic; color: var(--fg); }
+    .article-body ul, .article-body ol { padding-left: 1.5em; line-height: 1.8; }
+    .article-body ul { list-style: none; }
+    .article-body ul li::before { content: '—'; display: inline-block; margin-left: -1.5em; margin-right: 0.6em; color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.75em; }
+    .article-body ol { list-style: decimal; }
+    .article-body ol li::marker { color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.8em; }
+    .article-body li + li { margin-top: 0.4em; }
+    .article-body li > ul, .article-body li > ol { margin-top: 0.4em; }
+    .article-body blockquote { border-left: 2px solid var(--accent); margin-left: 0; padding: 0.5em 0 0.5em 1.4em; color: var(--fg-dim); font-style: italic; }
+    .article-body blockquote > * + * { margin-top: 0.75em; }
+    .article-body code { font-family: 'Space Mono', monospace; font-size: 0.82em; background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 0.1em 0.4em; color: var(--fg); }
+    .article-body pre { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.07); border-left: 2px solid rgba(232,58,0,0.4); border-radius: 3px; padding: 1.2em 1.4em; overflow-x: auto; line-height: 1.6; }
+    .article-body pre code { background: none; border: none; padding: 0; font-size: 0.82em; }
+    .article-body hr { border: none; border-top: 1px solid var(--rule); margin: 3em 0; }
+    .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+    .article-body th { font-family: 'Space Mono', monospace; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 0.5em 1em 0.5em 0; }
+    .article-body td { border-bottom: 1px solid var(--rule); padding: 0.6em 1em 0.6em 0; vertical-align: top; }
+    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); }
+    .article-footer { max-width: 680px; margin: 0 auto; padding: 2rem clamp(1rem, 5vw, 2rem) 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .footer-back:hover { color: var(--accent); }
+    .footer-site { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; color: var(--fg-faint); text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav" aria-label="Site navigation">
+      <a class="nav-brand" href="/">
+        <svg width="40" height="40" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#D43301" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path stroke-width="2.4" d="M104,86 C100,72 94,54 86,34 C80,18 76,8 80,4 C83,1 88,4 92,14 C96,24 100,42 106,62" />
+            <path stroke-width="2"   d="M88,38 C80,28 70,18 62,10 C59,7 59,3 63,2 C67,1 73,6 78,14" />
+            <path stroke-width="1.8" d="M84,22 C76,14 68,8 64,2" />
+            <path stroke-width="2"   d="M96,62 C86,54 74,46 66,38 C63,34 64,30 68,29 C73,28 80,34 88,42" />
+            <path stroke-width="2.4" d="M132,86 C136,72 142,54 150,34 C156,18 160,8 156,4 C153,1 148,4 144,14 C140,24 136,42 130,62" />
+            <path stroke-width="2"   d="M148,38 C156,28 166,18 174,10 C177,7 177,3 173,2 C169,1 163,6 158,14" />
+            <path stroke-width="1.8" d="M152,22 C160,14 168,8 172,2" />
+            <path stroke-width="2"   d="M140,62 C150,54 162,46 170,38 C173,34 172,30 168,29 C163,28 156,34 148,42" />
+            <path stroke-width="2.4" d="M106,90 C100,78 97,62 99,48 C101,36 107,30 113,32 C119,34 121,46 119,62 L116,88" />
+            <path stroke-width="2.4" d="M130,90 C136,78 139,62 137,48 C135,36 129,30 123,32 C117,34 115,46 117,62 L120,88" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M108,86 C104,76 103,62 105,50 C107,41 111,37 114,39" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M128,86 C132,76 133,62 131,50 C129,41 125,37 122,39" />
+            <path stroke-width="2.4" d="M107,92 C102,100 100,112 103,122 C106,130 112,136 120,138 C128,140 136,136 140,128 C144,120 143,108 138,98 C135,92 130,88 124,88" />
+            <path stroke-width="2"   d="M108,108 C110,104 115,103 119,105 C121,106 122,109 120,112 C118,115 113,115 110,113 C108,111 107,109 108,108Z" />
+            <path stroke-width="2"   d="M128,108 C130,104 135,103 139,105 C141,106 142,109 140,112 C138,115 133,115 130,113 C128,111 127,109 128,108Z" />
+            <path stroke-width="1.5" d="M113,107 L117,112" /><path stroke-width="1.5" d="M133,107 L137,112" />
+            <path stroke-width="1.4" d="M106,104 C109,101 114,100 118,102" /><path stroke-width="1.4" d="M130,102 C134,100 138,101 141,104" />
+            <path stroke-width="2"   d="M113,120 C115,124 118,126 121,124 C124,122 125,118 122,115" />
+            <path stroke-width="1.2" d="M113,120 C112,116 115,113 118,114" />
+            <path stroke-width="2.4" d="M110,138 C107,146 105,156 105,168" /><path stroke-width="2.4" d="M128,138 C132,146 134,156 134,168" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M111,140 C109,148 108,158 109,166" /><path stroke-width="1" stroke-opacity="0.5" d="M127,140 C130,148 131,158 130,166" />
+            <path stroke-width="2.4" d="M105,168 C100,178 97,192 98,208 C99,218 104,226 112,230 C116,232 118,232 120,232" />
+            <path stroke-width="2.4" d="M134,168 C139,178 142,192 141,208 C140,220 135,228 127,231 C124,232 122,232 120,232" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M103,182 C106,186 112,188 118,188 C124,188 130,186 132,182" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M100,198 C104,202 111,204 118,204 C125,204 132,202 136,198" />
+            <path stroke-width="2.2" d="M106,200 C102,210 100,220 100,228" /><path stroke-width="2.2" d="M113,202 C112,213 112,222 113,230" />
+            <path stroke-width="1.6" d="M99,228 C101,234 108,236 114,232" />
+            <path stroke-width="2.2" d="M132,200 C136,210 138,220 138,228" /><path stroke-width="2.2" d="M125,202 C126,213 126,222 125,230" />
+            <path stroke-width="1.6" d="M139,228 C137,234 130,236 124,232" />
+            <path stroke-width="2.2" d="M120,230 C118,236 117,242 118,246" /><path stroke-width="2.2" d="M120,230 C122,236 123,242 122,246" />
+            <path stroke-width="2"   d="M116,244 C108,246 98,248 90,248 C87,248 86,246 88,244" />
+            <path stroke-width="2"   d="M122,244 C130,246 140,248 148,248 C151,248 152,246 150,244" />
+            <path stroke-width="2.2" d="M134,188 C142,182 150,174 152,164 C154,156 150,150 144,152 C140,154 138,162 140,170" />
+            <path stroke-width="1.4" d="M136,186 C142,178 146,170 144,162" stroke-opacity="0.5" />
+            <path stroke-width="1.2" d="M148,170 C152,162 152,155 149,152" stroke-opacity="0.4" />
+          </g>
+        </svg>
+        <span class="nav-wordmark">JAKALOPE AI</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a class="nav-link active" href="articles.html">Articles</a>
+        <a class="nav-link" href="case-studies.html">Case Studies</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="about.html">About</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
+          <line x1="1" y1="1" x2="21" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="8" x2="21" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </nav>
+
+    <main class="article-wrap">
+      <header class="article-header">
+        <div class="article-kicker">AI Experiments &amp; Thinking</div>
+        <h1 class="article-title" id="article-title">Innovation Lives at the Edges</h1>
+        <div class="article-meta"><span id="article-date">Apr 2025</span></div>
+        <hr class="article-header-rule" />
+      </header>
+      <div class="article-body" id="article-body"></div>
+    </main>
+
+    <footer class="article-footer" aria-label="Article footer">
+      <a class="footer-back" href="articles.html">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+          <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All articles
+      </a>
+      <span class="footer-site">jakalope.ai</span>
+    </footer>
+  </div>
+
+  <script src="marked.min.js"></script>
+  <script id="md-content" type="text/markdown">
+<!-- date: Apr 2025 -->
+# Innovation Lives at the Edges
+
+*Why the most transformative work happens in the places where nobody is competing yet*
+
+---
+
+If you've spent time in innovation practice, you've probably sat in a room where someone drew a funnel on a whiteboard and said something like "we want to focus on what's achievable." It's not a bad instinct. Organizations need to ship. Roadmaps need to fit quarters. But there's a slow, quiet cost to always centering your attention on the achievable: the achievable is where everyone else is already standing.
+
+The most valuable design work I've done in the last few years didn't start in the center. It started at the edges — in the places that felt weird, speculative, or premature. That's where the interesting problems are. And increasingly, that's where the real competitive distance gets made.
+
+Here's the framework I've come to rely on for thinking about this, and what it's looked like in practice.
+
+## The futures cone
+
+There's a concept that comes out of strategic foresight work called the futures cone. The idea is simple: when you look out from the present into the future, what you can see isn't a single path. It's a widening cone of possibilities.
+
+| Zone | What it contains | Who's working here |
+|---|---|---|
+| **Probable** | Futures we can plan for with reasonable confidence | Almost everyone |
+| **Plausible** | Futures that could happen given what we know today | Some strategists and consultants |
+| **Possible** | Futures that can't be ruled out, even if we can't fully model them | A handful of labs and futurists |
+| **Preferred** | The futures we're actively trying to bring into being | The most intentional organizations |
+
+The center of that cone — the probable — is where roadmaps live, where quarterly OKRs point, where competitive analysis runs. That's not wrong. You have to operate in the probable to survive. But *transformation* — the kind that changes what a product fundamentally *is* rather than how well it performs — almost never originates there. It originates in the plausible and possible, where the assumptions that govern your category haven't fully calcified yet.
+
+The practical insight: if your discovery practice only covers the probable, you're not doing foresight. You're doing market research with extra steps.
+
+## What scanning the edges actually looks like
+
+Foresight practitioners talk about scanning across five signal domains — sometimes called STEEP: Social, Technological, Environmental, Economic, and Political. The reason to scan broadly isn't academic. It's that category-transforming changes rarely arrive with a label that says "this is relevant to your product." They arrive sideways, from domains you weren't watching.
+
+The pattern I've noticed in the most interesting fringe work is that the innovation isn't in the technology itself — it's in the *collision* between a technology that's maturing in one domain and a human problem that's been stuck in another. You rarely find those collisions if you're only watching your own category.
+
+That collision-hunting is the real job. It requires deliberate practice: regular time set aside for signals that don't have a clear path to a roadmap, questions your team treats as too speculative to be useful, and a tolerance for sitting with problems you can't yet solve.
+
+## What it looks like from the inside
+
+Some of the most formative work I've done has come from exactly this kind of edge exploration. A few examples, kept generic enough to share.
+
+**Autonomous delivery at scale.** Working with a team extending a drone delivery pilot from a small number of aircraft to a much larger fleet, the design challenge wasn't the interface — it was the human-AI seam. How do you design oversight for a human pilot managing dozens of autonomous vehicles simultaneously? What does meaningful control look like when the agent is operating faster than manual intervention can follow? There was no existing playbook. We had to build one, and the process of building it taught more about agentic experience design than any probable-zone project I'd worked on.
+
+**Real-time space exploration.** Building an interface for tracking missions across the solar system — a Mars rover, deep-space probes at the edges of our neighborhood — with real-time position data forces you to think about spatial scale, temporal uncertainty, and the design of data that updates on timescales ranging from minutes to years. The constraints are so unusual that ordinary information architecture assumptions simply fail. You end up inventing patterns. Those patterns, it turns out, have implications for much more ordinary products.
+
+**Spatial computing and the workplace.** Exploring AR and VR as workplace tools — manufacturing environments, extended knowledge work, the question of what "the desktop" becomes when the display is infinite and three-dimensional — puts the most basic assumptions of product design under pressure. Navigation, hierarchy, context-switching, notification design: none of it transfers cleanly. The design decisions you have to make in that space reveal how much of current practice is shaped by screen constraints that won't exist in ten years.
+
+None of this work shipped as a mainstream product last quarter. But each of it made me substantially better at the work that did. Edge exploration isn't separate from practice — it *develops* practice in ways that the probable zone can't.
+
+## The mistake most teams make
+
+The most common failure mode I see is treating fringe exploration as a resource question: "we'll do this when we have time." Fringe exploration never has time because it doesn't generate direct quarterly outputs. It has to be *protected* time — structured and deliberate, not leftover.
+
+The second failure mode is applying center-zone rigor to edge-zone work too early. You don't validate a possible future with the same confidence thresholds you'd apply to a feature launch. Possible futures are meant to be explored, not immediately proven. The business case for exploring a future that's five to fifteen years out is almost never the future itself — it's the practice capability and the early signals that build up in the people doing the exploring.
+
+A small habit that helps: when you're doing competitive analysis or roadmap planning, add one question to the exercise — *what does this look like if the dominant assumption in our category turns out to be wrong?* That single question, asked consistently, opens a door to the edge that most planning processes keep closed.
+
+## The fringes are where the next center is built
+
+Here's the reframe that changes how this feels: the edges don't stay at the edges. Spatial computing is becoming the workplace. Autonomous agents are becoming the product. The things that look speculative and premature from the inside of the probable zone are already moving toward the center from the outside.
+
+The teams that will set the standard in agentic experience design, in spatial interfaces, in human-AI collaboration at scale — most of them aren't the teams that waited for the technology to mature before paying attention. They're the teams that were already building practice at the fringes when the technology arrived.
+
+You don't need to blow up your roadmap to do this work. You need a deliberate practice of looking past it, a tolerance for problems you can't yet fully solve, and the willingness to spend time in the part of the cone where the ceiling hasn't been set yet.
+
+The center is where you compete. The edges are where you get ahead.
+
+---
+
+### Want to go deeper?
+
+- [*An Introduction to Futures Studies and the Futures Cone*](https://thefuturescentre.org/articles/an-introduction-to-futures-studies/) — Futures Centre — the clearest primer on the cone framework I've found
+- [*How to Do Strategic Foresight*](https://hbr.org/2022/06/how-to-future-proof-your-strategy) — HBR — making foresight a practical habit rather than an academic exercise
+- [*The Innovator's Dilemma*](https://www.amazon.com/Innovators-Dilemma-Revolutionary-Change-Business/dp/0062060244) — Clayton Christensen — still the definitive account of why the center always misses what's coming from the edges
+- [*Speculative Everything*](https://mitpress.mit.edu/9780262019842/speculative-everything/) — Dunne & Raby — the design community's most thoughtful treatment of designing for possible futures
+  </script>
+  <script>
+    (function () {
+      const mdEl = document.getElementById('md-content');
+      const bodyEl = document.getElementById('article-body');
+      if (!mdEl || !bodyEl || typeof marked === 'undefined') return;
+      const raw = mdEl.textContent;
+      const lines = raw.split('\n');
+      const nonEmpty = lines.filter(l => l.trim().length > 0);
+      const indent = nonEmpty.reduce((min, l) => { const m = l.match(/^(\s*)/); return Math.min(min, m ? m[1].length : 0); }, Infinity);
+      const dedented = lines.map(l => l.slice(indent === Infinity ? 0 : indent)).join('\n').trim();
+      const titleMatch = dedented.match(/^#\s+(.+)$/m);
+      const dateMatch  = dedented.match(/^<!--\s*date:\s*(.+?)\s*-->$/m);
+      if (titleMatch) { document.getElementById('article-title').textContent = titleMatch[1]; document.title = titleMatch[1] + ' — jakalope.ai'; }
+      if (dateMatch)  { document.getElementById('article-date').textContent = dateMatch[1]; }
+      let content = dedented;
+      if (titleMatch) content = content.replace(/^#[ \t]+.+\n?/m, '');
+      if (dateMatch)  content = content.replace(/^<!--\s*date:\s*.+?[ \t]*-->\n?/m, '');
+      bodyEl.innerHTML = marked.parse(content.trimStart(), { breaks: false, gfm: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var t = document.getElementById('nav-toggle');
+      var l = document.getElementById('nav-links');
+      if (!t || !l) return;
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = l.classList.toggle('open');
+        t.setAttribute('aria-expanded', open ? 'true' : 'false');
+        t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      document.addEventListener('click', function () {
+        l.classList.remove('open');
+        t.setAttribute('aria-expanded', 'false');
+        t.setAttribute('aria-label', 'Open menu');
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Trust Problem in Healthcare UX — jakalope.ai</title>
+  <meta name="description" content="Why health and life sciences is the hardest design domain — and what it takes to get it right." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0b0a; --fg: #ede8e1; --fg-dim: #9a9088;
+      --fg-faint: #827d78; --accent: #E83A00;
+      --rule: rgba(255,255,255,0.1); --code-bg: rgba(255,255,255,0.05);
+    }
+    html, body { background: var(--bg); color: var(--fg); font-family: 'Courier Prime', monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.7; }
+    body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.55; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E"); background-size: 200px 200px; mix-blend-mode: overlay; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%); }
+    .page { position: relative; z-index: 1; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 5vw, 2.5rem); border-bottom: 1px solid var(--rule); position: relative; }
+    .nav-brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--fg); transition: opacity 0.2s; }
+    .nav-brand:hover { opacity: 0.75; }
+    .nav-brand svg { flex-shrink: 0; }
+    .nav-wordmark { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(0.75rem, 2.5vw, 0.95rem); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: var(--accent); }
+    .nav-link.active { color: var(--fg); }
+    .nav-toggle { display: none; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; color: var(--fg-dim); padding: 0.25rem; transition: color 0.2s; flex-shrink: 0; }
+    .nav-toggle:hover { color: var(--fg); }
+    @media (max-width: 1023px) {
+      .nav-toggle { display: flex; }
+      .nav-links { display: none; position: absolute; top: 100%; right: 0; min-width: 200px; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border: 1px solid var(--rule); border-top: none; padding: 0.25rem 1.5rem 1rem; z-index: 100; }
+      .nav-links.open { display: flex; }
+      .nav-link { padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+    .article-wrap { max-width: 680px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 2rem) clamp(5rem, 12vw, 9rem); }
+    .article-header { margin-bottom: 3rem; }
+    .article-kicker { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 1.2rem; }
+    .article-kicker::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--accent); }
+    .article-title { font-family: 'Space Mono', monospace; font-weight: 700; font-size: clamp(1.5rem, 5vw, 2.2rem); line-height: 1.2; letter-spacing: 0.01em; color: var(--fg); margin-bottom: 1rem; }
+    .article-meta { display: flex; align-items: center; gap: 1.2rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; color: var(--fg-dim); }
+    .article-header-rule { margin-top: 2rem; border: none; border-top: 1px solid var(--rule); }
+    .article-body { font-size: clamp(0.9rem, 2.2vw, 1rem); }
+    .article-body > p:first-child { font-size: clamp(0.95rem, 2.5vw, 1.06rem); color: var(--fg-dim); line-height: 1.75; }
+    .article-body > * + * { margin-top: 1.5em; }
+    .article-body h1, .article-body h2, .article-body h3, .article-body h4 { font-family: 'Space Mono', monospace; font-weight: 700; line-height: 1.25; color: var(--fg); margin-top: 2.5em; margin-bottom: 0.75em; }
+    .article-body h1 { font-size: clamp(1.3rem, 4vw, 1.7rem); }
+    .article-body h2 { font-size: clamp(1.05rem, 3vw, 1.3rem); padding-bottom: 0.4em; border-bottom: 1px solid var(--rule); }
+    .article-body h3 { font-size: clamp(0.95rem, 2.5vw, 1.1rem); color: var(--fg-dim); }
+    .article-body h4 { font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-dim); }
+    .article-body p { line-height: 1.8; }
+    .article-body a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(232,58,0,0.4); text-underline-offset: 3px; transition: text-decoration-color 0.2s; }
+    .article-body a:hover { text-decoration-color: var(--accent); }
+    .article-body strong { color: var(--fg); font-weight: 700; }
+    .article-body em { font-style: italic; color: var(--fg); }
+    .article-body ul, .article-body ol { padding-left: 1.5em; line-height: 1.8; }
+    .article-body ul { list-style: none; }
+    .article-body ul li::before { content: '—'; display: inline-block; margin-left: -1.5em; margin-right: 0.6em; color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.75em; }
+    .article-body ol { list-style: decimal; }
+    .article-body ol li::marker { color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.8em; }
+    .article-body li + li { margin-top: 0.4em; }
+    .article-body li > ul, .article-body li > ol { margin-top: 0.4em; }
+    .article-body blockquote { border-left: 2px solid var(--accent); margin-left: 0; padding: 0.5em 0 0.5em 1.4em; color: var(--fg-dim); font-style: italic; }
+    .article-body blockquote > * + * { margin-top: 0.75em; }
+    .article-body code { font-family: 'Space Mono', monospace; font-size: 0.82em; background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 0.1em 0.4em; color: var(--fg); }
+    .article-body pre { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.07); border-left: 2px solid rgba(232,58,0,0.4); border-radius: 3px; padding: 1.2em 1.4em; overflow-x: auto; line-height: 1.6; }
+    .article-body pre code { background: none; border: none; padding: 0; font-size: 0.82em; }
+    .article-body hr { border: none; border-top: 1px solid var(--rule); margin: 3em 0; }
+    .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+    .article-body th { font-family: 'Space Mono', monospace; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 0.5em 1em 0.5em 0; }
+    .article-body td { border-bottom: 1px solid var(--rule); padding: 0.6em 1em 0.6em 0; vertical-align: top; }
+    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); }
+    .article-footer { max-width: 680px; margin: 0 auto; padding: 2rem clamp(1rem, 5vw, 2rem) 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-decoration: none; transition: color 0.2s; }
+    .footer-back:hover { color: var(--accent); }
+    .footer-site { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; color: var(--fg-faint); text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav" aria-label="Site navigation">
+      <a class="nav-brand" href="/">
+        <svg width="40" height="40" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#D43301" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path stroke-width="2.4" d="M104,86 C100,72 94,54 86,34 C80,18 76,8 80,4 C83,1 88,4 92,14 C96,24 100,42 106,62" />
+            <path stroke-width="2"   d="M88,38 C80,28 70,18 62,10 C59,7 59,3 63,2 C67,1 73,6 78,14" />
+            <path stroke-width="1.8" d="M84,22 C76,14 68,8 64,2" />
+            <path stroke-width="2"   d="M96,62 C86,54 74,46 66,38 C63,34 64,30 68,29 C73,28 80,34 88,42" />
+            <path stroke-width="2.4" d="M132,86 C136,72 142,54 150,34 C156,18 160,8 156,4 C153,1 148,4 144,14 C140,24 136,42 130,62" />
+            <path stroke-width="2"   d="M148,38 C156,28 166,18 174,10 C177,7 177,3 173,2 C169,1 163,6 158,14" />
+            <path stroke-width="1.8" d="M152,22 C160,14 168,8 172,2" />
+            <path stroke-width="2"   d="M140,62 C150,54 162,46 170,38 C173,34 172,30 168,29 C163,28 156,34 148,42" />
+            <path stroke-width="2.4" d="M106,90 C100,78 97,62 99,48 C101,36 107,30 113,32 C119,34 121,46 119,62 L116,88" />
+            <path stroke-width="2.4" d="M130,90 C136,78 139,62 137,48 C135,36 129,30 123,32 C117,34 115,46 117,62 L120,88" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M108,86 C104,76 103,62 105,50 C107,41 111,37 114,39" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M128,86 C132,76 133,62 131,50 C129,41 125,37 122,39" />
+            <path stroke-width="2.4" d="M107,92 C102,100 100,112 103,122 C106,130 112,136 120,138 C128,140 136,136 140,128 C144,120 143,108 138,98 C135,92 130,88 124,88" />
+            <path stroke-width="2"   d="M108,108 C110,104 115,103 119,105 C121,106 122,109 120,112 C118,115 113,115 110,113 C108,111 107,109 108,108Z" />
+            <path stroke-width="2"   d="M128,108 C130,104 135,103 139,105 C141,106 142,109 140,112 C138,115 133,115 130,113 C128,111 127,109 128,108Z" />
+            <path stroke-width="1.5" d="M113,107 L117,112" /><path stroke-width="1.5" d="M133,107 L137,112" />
+            <path stroke-width="1.4" d="M106,104 C109,101 114,100 118,102" /><path stroke-width="1.4" d="M130,102 C134,100 138,101 141,104" />
+            <path stroke-width="2"   d="M113,120 C115,124 118,126 121,124 C124,122 125,118 122,115" />
+            <path stroke-width="1.2" d="M113,120 C112,116 115,113 118,114" />
+            <path stroke-width="2.4" d="M110,138 C107,146 105,156 105,168" /><path stroke-width="2.4" d="M128,138 C132,146 134,156 134,168" />
+            <path stroke-width="1"   stroke-opacity="0.5" d="M111,140 C109,148 108,158 109,166" /><path stroke-width="1" stroke-opacity="0.5" d="M127,140 C130,148 131,158 130,166" />
+            <path stroke-width="2.4" d="M105,168 C100,178 97,192 98,208 C99,218 104,226 112,230 C116,232 118,232 120,232" />
+            <path stroke-width="2.4" d="M134,168 C139,178 142,192 141,208 C140,220 135,228 127,231 C124,232 122,232 120,232" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M103,182 C106,186 112,188 118,188 C124,188 130,186 132,182" />
+            <path stroke-width="1"   stroke-opacity="0.4" d="M100,198 C104,202 111,204 118,204 C125,204 132,202 136,198" />
+            <path stroke-width="2.2" d="M106,200 C102,210 100,220 100,228" /><path stroke-width="2.2" d="M113,202 C112,213 112,222 113,230" />
+            <path stroke-width="1.6" d="M99,228 C101,234 108,236 114,232" />
+            <path stroke-width="2.2" d="M132,200 C136,210 138,220 138,228" /><path stroke-width="2.2" d="M125,202 C126,213 126,222 125,230" />
+            <path stroke-width="1.6" d="M139,228 C137,234 130,236 124,232" />
+            <path stroke-width="2.2" d="M120,230 C118,236 117,242 118,246" /><path stroke-width="2.2" d="M120,230 C122,236 123,242 122,246" />
+            <path stroke-width="2"   d="M116,244 C108,246 98,248 90,248 C87,248 86,246 88,244" />
+            <path stroke-width="2"   d="M122,244 C130,246 140,248 148,248 C151,248 152,246 150,244" />
+            <path stroke-width="2.2" d="M134,188 C142,182 150,174 152,164 C154,156 150,150 144,152 C140,154 138,162 140,170" />
+            <path stroke-width="1.4" d="M136,186 C142,178 146,170 144,162" stroke-opacity="0.5" />
+            <path stroke-width="1.2" d="M148,170 C152,162 152,155 149,152" stroke-opacity="0.4" />
+          </g>
+        </svg>
+        <span class="nav-wordmark">JAKALOPE AI</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a class="nav-link active" href="articles.html">Articles</a>
+        <a class="nav-link" href="case-studies.html">Case Studies</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="about.html">About</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
+          <line x1="1" y1="1" x2="21" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="8" x2="21" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </nav>
+
+    <main class="article-wrap">
+      <header class="article-header">
+        <div class="article-kicker">AI Experiments &amp; Thinking</div>
+        <h1 class="article-title" id="article-title">The Trust Problem in Healthcare UX</h1>
+        <div class="article-meta"><span id="article-date">Jan 2026</span></div>
+        <hr class="article-header-rule" />
+      </header>
+      <div class="article-body" id="article-body"></div>
+    </main>
+
+    <footer class="article-footer" aria-label="Article footer">
+      <a class="footer-back" href="articles.html">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+          <path d="M6 1L1 5L6 9M1 5H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All articles
+      </a>
+      <span class="footer-site">jakalope.ai</span>
+    </footer>
+  </div>
+
+  <script src="marked.min.js"></script>
+  <script id="md-content" type="text/markdown">
+<!-- date: Jan 2026 -->
+# The Trust Problem in Healthcare UX
+
+*Why health and life sciences is the hardest design domain — and what it takes to get it right*
+
+---
+
+Every design domain has its signature challenge. In fintech, it's confidence — people won't act on a product they don't trust with their money. In enterprise software, it's adoption — the most powerful tool fails if the people who need it find workarounds instead. In consumer apps, it's retention — the first session is cheap; the hundredth is everything.
+
+In health and life sciences, the signature challenge is trust. And it's harder than anywhere else I've worked, because the stakes are different. When someone is trying to understand what their insurance will cover before a procedure, or trying to make sense of a claim they think was processed wrong, or trying to find a specialist who actually accepts new patients and is in-network — they're not browsing. They're often scared, or confused, or already in a difficult moment. The product they're using is one of the primary ways they form their relationship with the entire healthcare system. Get the experience wrong, and the consequences aren't a cancelled subscription. They're a person who doesn't get care they needed, or who goes into a process feeling helpless and comes out feeling deceived.
+
+That's the design brief in this space. Here's what I've learned working inside it.
+
+## The data is sobering
+
+The research on healthcare consumer experience paints a consistent picture. One in three members are less than satisfied with their health insurer's digital experience. That number has been stubbornly resistant to improvement for years, even as insurers have invested heavily in digital. The gap between what members need and what they get isn't a technology gap — it's a design gap. The tools exist. The understanding of what members actually need isn't being translated into the product.
+
+The asymmetry of experience quality is striking. A positive experience — say, good communication during a billing dispute, or a clear and readable explanation of benefits — generates measurably strong downstream behavior: members advocate for the company, seek guidance from them, and add services. A negative experience creates the opposite at roughly three times the magnitude. One confusing claims screen, one login failure at the wrong moment, one form that asks for information the system already has — and the trust that took months to build erodes significantly.
+
+There's a specific place where the trust gap shows up most clearly: costs. The research I've seen consistently points to cost transparency as the highest-value opportunity in health insurance UX. Members want to understand their total out-of-pocket cost before a visit. They want confidence that their claim was processed correctly. They want to know how much they owe and why. These are not exotic requests. They're the same questions that a person naturally has when they receive a bill for something. The fact that answering those questions clearly remains a design challenge in 2025 says something important about how the industry has historically prioritized operational complexity over member experience.
+
+## The trust deficit has a structural cause
+
+There's a finding I keep coming back to, which I think explains a lot about why healthcare UX is hard: patients report connecting with their pharmacists twelve times more often than with their primary care physicians — if they even have a PCP. The pharmacist is trusted. The insurer is not.
+
+This is worth sitting with. The pharmacist has a face, a name, physical proximity, and a history of answering questions without judgment. The health insurer has a portal, a phone tree, and a set of documents that were written by compliance teams and designed by committees. The trust isn't absent in healthcare — it lives in the human moments. What's absent is any strong channel connecting the insurer to those moments.
+
+This is both a diagnosis and an opportunity. The insurers that are getting this right are the ones designing around the moments where members actually need help — not just the moments where insurers need members to complete a transaction. That's a meaningful difference in how you scope a design brief.
+
+## Six principles that change how the work gets done
+
+Working on health insurance UX at a serious level has given me a working set of design principles I now apply broadly. They came from the constraints of this domain, but they travel well.
+
+**Build confidence through clarity.** In healthcare, complexity is often unavoidable — plans are genuinely complicated, benefit structures are genuinely intricate. The design job isn't to hide the complexity; it's to use clear language, progressive disclosure, and well-placed explainers so that complexity is navigable when you need it and invisible when you don't. The worst healthcare UX tries to simplify by omitting. The best simplifies by structuring.
+
+**Optimize for purposeful content.** Every screen in a health insurance app is competing with anxiety. Members arrive with a question, often an urgent one. Promotional content, upsell modules, and engagement nudges that would be acceptable in a consumer app are disruptive here. The research I've seen consistently shows that members want the content that's purposeful for their task, not content that's purposeful for the business. When those two things align — when the member gets what they need and the business outcome follows — you've designed something that works. When they're in tension, always resolve in favor of the member.
+
+**Inform decisions through transparency.** This one is the hardest and the most important. Be honest when an answer isn't available. Don't surface confidence you don't have. Don't design a claims experience that implies certainty about a status that's actually uncertain. Members can handle "we're still processing this" — what destroys trust is "all done" followed by a surprise bill. The research on this is consistent: members don't need perfection. They need honesty about where they are.
+
+**Be brilliant at the basics.** This is the one principle I say most often in rooms of senior people who want to talk about AI and personalization. The majority of member sessions are top-task sessions: check a claim status, find a provider, understand a deductible, pay a bill. If those flows are confusing, slow, or error-prone, no amount of AI-powered personalization fixes the relationship. The exciting work builds on a foundation of basics done well. Build the foundation first.
+
+**Relentlessly prioritize top tasks.** Every member journey has a handful of tasks that matter enormously — tasks that, if completed successfully, drive member confidence and reduce call volume, and that, if done poorly, generate frustration and erode retention. The data to identify those tasks exists in call centers, support tickets, and app analytics. The discipline is to then let that data govern design prioritization, even when stakeholders want features that are more exciting but less needed.
+
+**Support members in moments that matter.** The moments that matter in healthcare aren't always predictable — a new diagnosis, a coverage question before a procedure, a billing dispute after a difficult treatment. What design can do is ensure that the path to help is always visible and fast. Live chat that actually reaches a human. A support flow that doesn't require re-entering information the member just entered. An escalation path from a bot that doesn't feel like a trick. The technology here is straightforward. The commitment to building it, and to measuring whether it's actually working, is where organizations falter.
+
+## The role AI is starting to play
+
+The most significant shift I'm watching in this space is the movement from AI as a cost-reduction tool toward AI as a trust-building tool. The first generation of healthcare AI was primarily about deflection — chatbots that answered simple questions to reduce call volume. That framing is correct as far as it goes, but it misses the larger opportunity.
+
+The larger opportunity is proactive guidance: a system that knows a member's plan well enough to flag when they're about to see an out-of-network provider, or to explain a coverage change before the member discovers it through a denied claim, or to surface a cost-saving option the member didn't know existed. That's not deflection. That's the digital equivalent of the pharmacist relationship — a knowledgeable, accessible presence that helps you navigate a complex system in your interest.
+
+Getting there requires good data architecture, thoughtful personalization design, and an honest conversation about what AI can and can't do reliably in high-stakes health decisions. The members who are best served by AI-assisted guidance aren't the ones who hand decisions over to the AI — they're the ones whose decisions are better informed by it. Designing for that distinction matters.
+
+## Evidence is the foundation
+
+The phrase I've thought about most in this space is one I've come to treat as almost a design philosophy: *evidence is the most powerful design tool.*
+
+In healthcare UX, the temptation is to design around institutional assumptions — what the compliance team needs, what the product roadmap says, what leadership believes members want. Those inputs have their place. But the members using the product every day have better information than any of those sources, and it lives in their behavior, their support calls, their task completion rates, and their direct testimony when you put a prototype in front of them and watch them work.
+
+The organizations that are making real progress in healthcare experience design are the ones that have made evidence — real behavioral evidence, rigorously gathered — the primary input to every significant design decision. Not the only input. The primary one. That shift in how decisions get made is harder than any of the design work that follows from it. But it's where the trust problem starts to get solved.
+
+---
+
+### Want to go deeper?
+
+- [*Forrester: The Top Five Trends for US Health Insurers*](https://www.forrester.com/report/the-top-five-trends-for-us-health-insurers-in-2024/) — the industry trends report that's shaping how leading insurers are prioritizing digital investment
+- [*The Health Insurance Trust Problem*](https://hbr.org/topic/subject/health-insurance) — HBR's health insurance and CX collection
+- [*Jobs to Be Done in Healthcare*](https://www.christenseninstitute.org/jobs-to-be-done/) — the Christensen Institute's JTBD framework applied to healthcare transformation
+- [*Designing for Trust in AI-Assisted Healthcare*](https://www.nejm.org/doi/full/10.1056/NEJMra2214931) — NEJM on the clinical and experiential conditions for AI adoption in health settings
+- [*Plain Language in Healthcare*](https://www.plainlanguage.gov/guidelines/) — the foundational reference for anyone writing content in a health context
+  </script>
+  <script>
+    (function () {
+      const mdEl = document.getElementById('md-content');
+      const bodyEl = document.getElementById('article-body');
+      if (!mdEl || !bodyEl || typeof marked === 'undefined') return;
+      const raw = mdEl.textContent;
+      const lines = raw.split('\n');
+      const nonEmpty = lines.filter(l => l.trim().length > 0);
+      const indent = nonEmpty.reduce((min, l) => { const m = l.match(/^(\s*)/); return Math.min(min, m ? m[1].length : 0); }, Infinity);
+      const dedented = lines.map(l => l.slice(indent === Infinity ? 0 : indent)).join('\n').trim();
+      const titleMatch = dedented.match(/^#\s+(.+)$/m);
+      const dateMatch  = dedented.match(/^<!--\s*date:\s*(.+?)\s*-->$/m);
+      if (titleMatch) { document.getElementById('article-title').textContent = titleMatch[1]; document.title = titleMatch[1] + ' — jakalope.ai'; }
+      if (dateMatch)  { document.getElementById('article-date').textContent = dateMatch[1]; }
+      let content = dedented;
+      if (titleMatch) content = content.replace(/^#[ \t]+.+\n?/m, '');
+      if (dateMatch)  content = content.replace(/^<!--\s*date:\s*.+?[ \t]*-->\n?/m, '');
+      bodyEl.innerHTML = marked.parse(content.trimStart(), { breaks: false, gfm: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var t = document.getElementById('nav-toggle');
+      var l = document.getElementById('nav-links');
+      if (!t || !l) return;
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = l.classList.toggle('open');
+        t.setAttribute('aria-expanded', open ? 'true' : 'false');
+        t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      document.addEventListener('click', function () {
+        l.classList.remove('open');
+        t.setAttribute('aria-expanded', 'false');
+        t.setAttribute('aria-label', 'Open menu');
+      });
+    })();
+  </script>
+</body>
+</html>
