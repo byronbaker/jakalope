@@ -34,7 +34,7 @@
     .nav-toggle:hover { color: var(--fg); }
     @media (max-width: 1023px) {
       .nav-toggle { display: flex; }
-      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border-bottom: 1px solid var(--rule); padding: 0.25rem clamp(1rem, 5vw, 2.5rem) 1rem; z-index: 100; }
+      .nav-links { display: none; position: absolute; top: 100%; right: 0; min-width: 200px; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border: 1px solid var(--rule); border-top: none; padding: 0.25rem 1.5rem 1rem; z-index: 100; }
       .nav-links.open { display: flex; }
       .nav-link { padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; }
       .nav-link:last-child { border-bottom: none; }
