@@ -102,7 +102,8 @@
     .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
     .article-body th { font-family: 'Space Mono', monospace; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 0.5em 1em 0.5em 0; }
     .article-body td { border-bottom: 1px solid var(--rule); padding: 0.6em 1em 0.6em 0; vertical-align: top; }
-    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); margin-top: 2em; margin-bottom: 2em; }
+    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); border-radius: 10px; margin-top: 2em; margin-bottom: 2em; }
+    .cs-hero-image { display: block; width: 100%; height: auto; border-radius: 10px; margin-bottom: 3rem; }
 
     /* ── Footer ── */
     .article-footer { max-width: 680px; margin: 0 auto; padding: 2rem clamp(1rem, 5vw, 2rem) 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
@@ -208,6 +209,8 @@
         <hr class="article-header-rule" />
       </header>
 
+      <img class="cs-hero-image" src="images/socalgas-primary.png" alt="SoCalGas MyAccount dashboard showing account overview and bill payment" />
+
       <div class="article-body" id="article-body">
         <!-- Rendered markdown appears here -->
       </div>
@@ -252,6 +255,8 @@ The program unfolded in three phases across 57 project weeks. An envisioning pha
 Research was embedded throughout, not front-loaded. We ran 38 stakeholder interviews across the organization to understand the internal picture — the opportunities, constraints, and ambitions that the external experience needed to reflect. We tested designs with research participants across multiple rounds, validating concepts before they went to development rather than after. Eight research sprints. Four executive reviews. The scale of coordination was significant: 120+ contributors across Blink and SoCalGas, three in-depth workshops, and a development partnership that required design and engineering to stay tightly aligned across the full build.
 
 The scope touched every layer of SoCalGas's digital presence. On the public website: a complete redesign of the site architecture, navigation, and content — including a thoughtful approach to how SoCalGas communicated its clean energy and hydrogen initiatives to customers who were just learning what that meant for them. On MyAccount: six signature experiences redesigned from the ground up — account setup and onboarding, bill pay, one-time payment, start service, maintenance scheduling with real-time service tracking, and the homepage dashboard. A new design system — built from scratch, documented for long-term governance, and designed to evolve with the organization rather than becoming the next thing that needs to be replaced in six years. Content strategy, voice and tone guidelines, Spanish localization standards, and email templates that extended the experience beyond the screen.
+
+![SoCalGas Maverick design system documentation and research artifacts](images/socalgas-secondary.png)
 
 ### The design challenge
 
