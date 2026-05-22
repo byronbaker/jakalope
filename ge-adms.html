@@ -16,6 +16,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
 
   <!-- ① Update these for each case study ──────────────── -->
   <title>GE — Advanced Distribution Management System — jakalope.ai</title>
@@ -102,7 +103,9 @@
     .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
     .article-body th { font-family: 'Space Mono', monospace; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 0.5em 1em 0.5em 0; }
     .article-body td { border-bottom: 1px solid var(--rule); padding: 0.6em 1em 0.6em 0; vertical-align: top; }
-    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); margin-top: 2em; margin-bottom: 2em; }
+    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); margin-top: 2em; margin-bottom: 2em; border-radius: 10px; }
+
+    .cs-hero-image { display: block; width: 100%; height: auto; border-radius: 10px; margin-bottom: 3rem; }
 
     /* ── Footer ── */
     .article-footer { max-width: 680px; margin: 0 auto; padding: 2rem clamp(1rem, 5vw, 2rem) 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
@@ -208,6 +211,8 @@
         <hr class="article-header-rule" />
       </header>
 
+      <img class="cs-hero-image" src="images/geadms-primary.png" alt="GE Advanced Distribution Management System platform interface redesign" />
+
       <div class="article-body" id="article-body">
         <!-- Rendered markdown appears here -->
       </div>
@@ -252,6 +257,8 @@ The work surfaced a central tension in utility operations software: these platfo
 Our design direction was built around low cognitive load as a first principle — not by removing information, but by creating hierarchy. Classic editorial design sensibilities applied to an enterprise operations platform: scannable layouts, visual indicators that communicated state at a glance, a guided experience for the complex multi-step switching workflows that were the core of daily operations. We also focused heavily on the ability to quickly surface and track multiple active work orders simultaneously — a real operational need in a busy distribution control center.
 
 The design covered the full ADMS architecture: the dashboard, alarm management, planned switching workflows, work order management, outage tracking, and the visual system for representing network topology and component states.
+
+![GE ADMS redesigned dashboard and alarm management interface showing low cognitive load design principles](images/geadms-secondary.png)
 
 ### Outcome
 

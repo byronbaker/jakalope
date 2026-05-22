@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
   <title>BCBS Massachusetts — MyBlue Mobile — jakalope.ai</title>
   <meta name="description" content="Redesigning BCBS Massachusetts's MyBlue mobile app from a 1.8-star experience to a product members actually use." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -85,7 +86,9 @@
     .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
     .article-body th { font-family: 'Space Mono', monospace; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 0.5em 1em 0.5em 0; }
     .article-body td { border-bottom: 1px solid var(--rule); padding: 0.6em 1em 0.6em 0; vertical-align: top; }
-    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); margin-top: 2em; margin-bottom: 2em; }
+    .article-body img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); margin-top: 2em; margin-bottom: 2em; border-radius: 10px; }
+
+    .cs-hero-image { display: block; width: 100%; height: auto; border-radius: 10px; margin-bottom: 3rem; }
 
     /* ── Footer ── */
     .article-footer { max-width: 680px; margin: 0 auto; padding: 2rem clamp(1rem, 5vw, 2rem) 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
@@ -189,6 +192,8 @@
         <hr class="article-header-rule" />
       </header>
 
+      <img class="cs-hero-image" src="images/bcbsmass-primary.png" alt="MyBlue mobile app redesign screens showing the improved member experience" />
+
       <div class="article-body" id="article-body">
         <!-- Rendered markdown appears here -->
       </div>
@@ -232,6 +237,8 @@ That decision ended up being the reason the outcome was possible. Going from 1.8
 Our strategy was built from four inputs: foundational member research, business requirements and technical constraints, stakeholder interviews across the organization, and a dual UX and content audit of the existing iOS and Android apps. We complemented this with a comparative review of apps members already trusted across fintech, healthcare, and retail — to benchmark what good looked like outside the insurance category.
 
 We ran 57 qualitative 1:1 interviews and a quantitative survey reaching 1,788 respondents, screened for members who had recently completed critical self-service tasks. The research surfaced a consistent theme: **in health insurance, trust is the product.** Members weren't evaluating features — they were evaluating whether the app helped them understand their situation and act with confidence. Cost anxiety ran through every task. Medical jargon deflected rather than answered. Navigation didn't match mental models.
+
+![BCBS Massachusetts MyBlue member research synthesis and design system documentation](images/bcbsmass-secondary.png)
 
 ### The vision: brilliant at the basics
 
